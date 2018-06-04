@@ -385,18 +385,19 @@ public class Imagem_model {
     
     /* INICIO MELHORIAS */    
     public double[] Histograma() {
-        //ArrayList<Double> dados = new ArrayList<>();
         double[] replay = new double[niveisCinza];
         double[] dados = new double[niveisCinza];
-        double Total = 0;
+        int Total = 0;
         
         //Faz a contagem de quantidade de pixeis até o nivel de cinza        
         for (int k = 0; k < niveisCinza; k++) {
-            replay[k] = 0;
-            System.out.println(k);
+            replay[k] = -1;
             for (int i = 0; i < altura; i++) {
-                for (int j = 0; j < largura; j++) {
+                for (int j = 0; j < largura; j++) {      
                     if(matriz[i][j] == k){
+                        if(replay[k] == -1)
+                            replay[k] = 0;
+                        
                         replay[k]++;       
                     }
                         
@@ -404,15 +405,21 @@ public class Imagem_model {
             }
         }      
         
-        
+        //Somatorio dos valores
         for (int i = 0; i < niveisCinza; i++) {
-            Total += replay[i];
+            if(replay[i] > -1)
+                Total += replay[i];
         }
         
-        for (int i = 0; i < niveisCinza; i++) {
-            dados[i] = replay[i]/Total;
+        if(DEBUG) System.out.println("Total: " + Total);
+        
+        //Divide pelo Total
+        for (int i = 0; i < niveisCinza; i++) {  
+            if(replay[i] > -1)
+                dados[i] = replay[i]/Total;
         }
         
+        //Retorna a sequencia de valores para histograma
         return dados;
     }
 
