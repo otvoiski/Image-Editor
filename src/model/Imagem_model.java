@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -33,7 +32,7 @@ public class Imagem_model {
     private BufferedImage img;
     
     public Imagem_model(String Local, String Nome) throws FileNotFoundException, IOException {      
-        DEBUG = false;
+        DEBUG = true;
         nome = Nome;
         imagem = new File(Local);
         local = Local;
@@ -150,7 +149,7 @@ public class Imagem_model {
             if(DEBUG){
                 System.out.println("Tamanha: "+altura+ " | " +largura);
                 System.out.println("Cinza: " + niveisCinza);
-                Error.show("Quantidade Lida: " + getQuantidade());
+                System.out.println("Quantidade Lida: " + getQuantidade());
             }
             return true;        
         }
@@ -385,18 +384,18 @@ public class Imagem_model {
     
     /* INICIO MELHORIAS */    
     public double[] Histograma() {
-        //ArrayList<Double> dados = new ArrayList<>();
         double[] replay = new double[niveisCinza];
         double[] dados = new double[niveisCinza];
-        double Total = 0;
         
         //Faz a contagem de quantidade de pixeis até o nivel de cinza        
         for (int k = 0; k < niveisCinza; k++) {
-            replay[k] = 0;
-            System.out.println(k);
+            replay[k] = -1;
             for (int i = 0; i < altura; i++) {
-                for (int j = 0; j < largura; j++) {
+                for (int j = 0; j < largura; j++) {      
                     if(matriz[i][j] == k){
+                        if(replay[k] == -1)
+                            replay[k] = 0;
+                        
                         replay[k]++;       
                     }
                         
@@ -404,18 +403,19 @@ public class Imagem_model {
             }
         }      
         
-        
-        for (int i = 0; i < niveisCinza; i++) {
-            Total += replay[i];
+        //Divide pela Quantidade de Pixeis o Numero de pixels cujo nivel de cinza correspondem ao "k" Nivel
+        for (int i = 0; i < niveisCinza; i++) {  
+            if(replay[i] > -1)
+                dados[i] = replay[i]/quantidade;
         }
         
-        for (int i = 0; i < niveisCinza; i++) {
-            dados[i] = replay[i]/Total;
-        }
-        
+        //Retorna a sequencia de valores para histograma
         return dados;
     }
-
+    
+    public void FiltroExpansao() {
+    
+    }
     
     
 }

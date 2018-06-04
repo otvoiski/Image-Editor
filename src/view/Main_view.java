@@ -235,6 +235,21 @@ public class Main_view extends javax.swing.JFrame {
         jlabel_descricao_max = new javax.swing.JLabel();
         jlabel_descricao_min = new javax.swing.JLabel();
         grafico = new javax.swing.JInternalFrame();
+        Filtro = new javax.swing.JInternalFrame();
+        jLabel18 = new javax.swing.JLabel();
+        jfiltro_selecao = new javax.swing.JComboBox<>();
+        jButton9 = new javax.swing.JButton();
+        jfiltro_loading = new javax.swing.JProgressBar();
+        Operadores = new javax.swing.JInternalFrame();
+        jLabel19 = new javax.swing.JLabel();
+        joperadores_selecao = new javax.swing.JComboBox<>();
+        jButton10 = new javax.swing.JButton();
+        joperadores_loading = new javax.swing.JProgressBar();
+        Realce = new javax.swing.JInternalFrame();
+        jLabel20 = new javax.swing.JLabel();
+        jrealce_selecao = new javax.swing.JComboBox<>();
+        jButton11 = new javax.swing.JButton();
+        jrealce_loading = new javax.swing.JProgressBar();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmenu_abrir = new javax.swing.JMenuItem();
@@ -253,6 +268,10 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_amostragem = new javax.swing.JMenuItem();
         jmenu_melhorias = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jmenu_opcao = new javax.swing.JMenuItem();
         jmenu_sobre = new javax.swing.JMenuItem();
@@ -723,6 +742,140 @@ public class Main_view extends javax.swing.JFrame {
         getContentPane().add(grafico);
         grafico.setBounds(610, 0, 600, 400);
 
+        Filtro.setClosable(true);
+        Filtro.setTitle("Filtros");
+        Filtro.setVisible(false);
+
+        jLabel18.setText("Selecione um Filtro");
+
+        jfiltro_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton9.setText("Aplicar");
+
+        javax.swing.GroupLayout FiltroLayout = new javax.swing.GroupLayout(Filtro.getContentPane());
+        Filtro.getContentPane().setLayout(FiltroLayout);
+        FiltroLayout.setHorizontalGroup(
+            FiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FiltroLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(FiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(FiltroLayout.createSequentialGroup()
+                        .addComponent(jfiltro_selecao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton9))
+                    .addGroup(FiltroLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jfiltro_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        FiltroLayout.setVerticalGroup(
+            FiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FiltroLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(FiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jfiltro_selecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9))
+                .addGap(18, 18, 18)
+                .addComponent(jfiltro_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(Filtro);
+        Filtro.setBounds(870, 0, 330, 130);
+
+        Operadores.setClosable(true);
+        Operadores.setTitle("Operadores");
+        Operadores.setVisible(false);
+
+        jLabel19.setText("Selecione um Operador");
+
+        joperadores_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sobel", "Prewitt" }));
+        joperadores_selecao.setToolTipText("");
+
+        jButton10.setText("Aplicar");
+
+        javax.swing.GroupLayout OperadoresLayout = new javax.swing.GroupLayout(Operadores.getContentPane());
+        Operadores.getContentPane().setLayout(OperadoresLayout);
+        OperadoresLayout.setHorizontalGroup(
+            OperadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperadoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(OperadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperadoresLayout.createSequentialGroup()
+                        .addComponent(joperadores_selecao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton10))
+                    .addGroup(OperadoresLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(joperadores_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        OperadoresLayout.setVerticalGroup(
+            OperadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(OperadoresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(joperadores_selecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10))
+                .addGap(18, 18, 18)
+                .addComponent(joperadores_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(Operadores);
+        Operadores.setBounds(870, 0, 330, 130);
+
+        Realce.setClosable(true);
+        Realce.setTitle("Realce");
+        Realce.setVisible(false);
+
+        jLabel20.setText("Selecione um Realce");
+
+        jrealce_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Raiz Quadrada", "Logarítmico" }));
+        jrealce_selecao.setToolTipText("");
+
+        jButton11.setText("Aplicar");
+
+        javax.swing.GroupLayout RealceLayout = new javax.swing.GroupLayout(Realce.getContentPane());
+        Realce.getContentPane().setLayout(RealceLayout);
+        RealceLayout.setHorizontalGroup(
+            RealceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RealceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(RealceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(RealceLayout.createSequentialGroup()
+                        .addComponent(jrealce_selecao, 0, 223, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton11))
+                    .addGroup(RealceLayout.createSequentialGroup()
+                        .addComponent(jLabel20)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jrealce_loading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        RealceLayout.setVerticalGroup(
+            RealceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RealceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RealceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jrealce_selecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11))
+                .addGap(18, 18, 18)
+                .addComponent(jrealce_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(Realce);
+        Realce.setBounds(870, 0, 330, 130);
+
         jMenu1.setText("Arquivo");
 
         jmenu_abrir.setText("Abrir");
@@ -845,6 +998,18 @@ public class Main_view extends javax.swing.JFrame {
             }
         });
         jmenu_melhorias.add(jMenuItem1);
+
+        jMenuItem3.setText("Filtros");
+        jmenu_melhorias.add(jMenuItem3);
+
+        jMenuItem4.setText("* Realce");
+        jmenu_melhorias.add(jMenuItem4);
+
+        jMenuItem5.setText("* Operadores");
+        jmenu_melhorias.add(jMenuItem5);
+
+        jMenuItem6.setText("* Limiarização");
+        jmenu_melhorias.add(jMenuItem6);
 
         jMenuBar1.add(jmenu_melhorias);
 
@@ -1132,17 +1297,22 @@ public class Main_view extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame Adicionar_Remover;
+    private javax.swing.JInternalFrame Filtro;
     private javax.swing.JInternalFrame Imagem;
     private javax.swing.JInternalFrame ImagemEditada;
     private javax.swing.JInternalFrame Opcao;
+    private javax.swing.JInternalFrame Operadores;
     private javax.swing.JInternalFrame Propriedades;
     private javax.swing.JInternalFrame Quantizacao;
+    private javax.swing.JInternalFrame Realce;
     private javax.swing.JInternalFrame SalvarComo;
     private javax.swing.JInternalFrame Sobre;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JInternalFrame grafico;
     private javax.swing.JLabel imagem_loaded;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1150,6 +1320,7 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1159,7 +1330,10 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1173,8 +1347,14 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JProgressBar jfiltro_loading;
+    private javax.swing.JComboBox<String> jfiltro_selecao;
     private javax.swing.JLabel jlabel_addremove_nome;
     private javax.swing.JLabel jlabel_descricao_altura;
     private javax.swing.JLabel jlabel_descricao_cinza;
@@ -1201,6 +1381,10 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenu_salvar;
     private javax.swing.JMenuItem jmenu_salvarcomo;
     private javax.swing.JMenuItem jmenu_sobre;
+    private javax.swing.JProgressBar joperadores_loading;
+    private javax.swing.JComboBox<String> joperadores_selecao;
+    private javax.swing.JProgressBar jrealce_loading;
+    private javax.swing.JComboBox<String> jrealce_selecao;
     private javax.swing.JTextField jtext_nome_arquivo;
     private javax.swing.JTextField jtext_opcao_local;
     private javax.swing.JTextField jtext_option_nome;
