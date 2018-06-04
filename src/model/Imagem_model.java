@@ -22,10 +22,10 @@ public class Imagem_model {
     private File imagem;
     private String nome;
     private String local;
-    private int quantidade;
-    private int altura;
-    private int largura;
-    private int niveisCinza;   
+    private int quantPixels;
+    private int Height;
+    private int Width;
+    private int greyScale;   
     private int pixelMax;
     private int pixelMin;
     private int[][] matriz; 
@@ -36,15 +36,15 @@ public class Imagem_model {
         nome = Nome;
         imagem = new File(Local);
         local = Local;
-        altura = 0;
-        niveisCinza = 0;    
+        Height = 0;
+        greyScale = 0;    
                
         
         if(!abrirImagem())
             Error.show("Não foi possivel ler a imagem.");
         else {            
             getMaxMin();
-            img = new BufferedImage(largura, altura, BufferedImage.TYPE_BYTE_GRAY); // Escala de cinza.                      
+            img = new BufferedImage(Width, Height, BufferedImage.TYPE_BYTE_GRAY); // Escala de cinza.                      
         }
         
     } 
@@ -74,11 +74,11 @@ public class Imagem_model {
     }
 
     public int getQuantidade() {
-        return quantidade;
+        return quantPixels;
     }
 
     public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+        this.quantPixels = quantidade;
     }
         
     public File getImagem() {
@@ -90,27 +90,27 @@ public class Imagem_model {
     }
 
     public int getAltura() {
-        return altura;
+        return Height;
     }
 
     public void setAltura(int altura) {
-        this.altura = altura;
+        this.Height = altura;
     }
 
     public int getLargura() {
-        return largura;
+        return Width;
     }
 
     public void setLargura(int largura) {
-        this.largura = largura;
+        this.Width = largura;
     }
 
     public int getNiveisCinza() {
-        return niveisCinza;
+        return greyScale;
     }
 
     public void setNiveisCinza(int niveisCinza) {
-        this.niveisCinza = niveisCinza;
+        this.greyScale = niveisCinza;
     }
 
     public int[][] getMatriz() {
@@ -147,8 +147,8 @@ public class Imagem_model {
             }
             
             if(DEBUG){
-                System.out.println("Tamanha: "+altura+ " | " +largura);
-                System.out.println("Cinza: " + niveisCinza);
+                System.out.println("Tamanha: "+Height+ " | " +Width);
+                System.out.println("Cinza: " + greyScale);
                 System.out.println("Quantidade Lida: " + getQuantidade());
             }
             return true;        
@@ -168,14 +168,14 @@ public class Imagem_model {
             buffW.newLine();
             buffW.write("#Criado por Otavio Voiski.");
             buffW.newLine();
-            buffW.write(altura + " " + largura);
+            buffW.write(Height + " " + Width);
             buffW.newLine();
-            buffW.write(String.valueOf(niveisCinza));
+            buffW.write(String.valueOf(greyScale));
             buffW.newLine();
 
-            for (int i = 0; i < altura; i++) {
-                for (int j = 0; j < largura; j++) {
-                    if (j < largura - 1) {
+            for (int i = 0; i < Height; i++) {
+                for (int j = 0; j < Width; j++) {
+                    if (j < Width - 1) {
                         buffW.write(String.valueOf(matriz[i][j]) + "  ");
                     } else {
                         buffW.write(String.valueOf(matriz[i][j]) + " ");
@@ -229,15 +229,15 @@ public class Imagem_model {
     public void Somar(int[][] matriz_a_ser_somada, int linhas2, int colunas2){
          double valor = 0;
         
-        double calc = (niveisCinza / (pixelMax - pixelMin));
+        double calc = (greyScale / (pixelMax - pixelMin));
         
-        for (int i = 0; i < altura; i++) {
-            for (int j = 0; j < largura; j++) {
+        for (int i = 0; i < Height; i++) {
+            for (int j = 0; j < Width; j++) {
                 
                 valor = calc * (matriz[i][j] + matriz_a_ser_somada[i][j]) - pixelMin;
                 
-                if(valor >= niveisCinza)
-                    valor = niveisCinza;
+                if(valor >= greyScale)
+                    valor = greyScale;
                 
                 matriz[i][j] = (int) valor;  
             }
@@ -250,11 +250,11 @@ public class Imagem_model {
         double calc = 0;
         
         if(normalizacao)
-            calc = (niveisCinza / (pixelMax - pixelMin));      
+            calc = (greyScale / (pixelMax - pixelMin));      
         
         
-        for (int i = 0; i < altura; i++) {
-            for (int j = 0; j < largura; j++) {
+        for (int i = 0; i < Height; i++) {
+            for (int j = 0; j < Width; j++) {
                 
                 if(normalizacao)
                     valor = calc * ((matriz[i][j] - matriz_a_ser_somada[i][j]) - pixelMin);                
@@ -288,9 +288,9 @@ public class Imagem_model {
         }        
         
         
-        setLargura(largura);
+        setLargura(Width);
         setMatriz(nvmatriz);
-        setAltura(altura);
+        setAltura(Height);
         
     }
     
@@ -314,11 +314,11 @@ public class Imagem_model {
         
     public void EspelharHorizontal() {
        
-        int temp[][] = new int[altura][largura];
+        int temp[][] = new int[Height][Width];
         
-        for (int i = altura-1; i >= 0; i--) {
-            for (int j = largura-1; j >= 0; j--) {
-                temp[altura-1-i][largura-1-j] = matriz[i][j];
+        for (int i = Height-1; i >= 0; i--) {
+            for (int j = Width-1; j >= 0; j--) {
+                temp[Height-1-i][Width-1-j] = matriz[i][j];
             }
         }
         matriz = temp;
@@ -326,11 +326,11 @@ public class Imagem_model {
     
     public void EspelharVertical() {        
         
-        int temp[][] = new int[altura][largura];
+        int temp[][] = new int[Height][Width];
         
-        for (int i = altura-1; i >= 0; i--) {
-            for (int j = largura-1; j >= 0; j--) {
-                temp[i][largura-1-j] = matriz[i][j];
+        for (int i = Height-1; i >= 0; i--) {
+            for (int j = Width-1; j >= 0; j--) {
+                temp[i][Width-1-j] = matriz[i][j];
             }
         }
         matriz = temp;
@@ -338,8 +338,8 @@ public class Imagem_model {
    
     public void Interpolacao() {
         int a,b,c,d,e;
-        for (int y = 0; y < altura; y++) {
-            for (int x = 0; x < largura; x++) {
+        for (int y = 0; y < Height; y++) {
+            for (int x = 0; x < Width; x++) {
 
                 a = (matriz[x][y] + matriz[x+1][y]) /2;
                 b = (matriz[x][y+1] + matriz[x+1][y+1]) /2;
@@ -384,15 +384,15 @@ public class Imagem_model {
     
     /* INICIO MELHORIAS */    
     public double[] Histograma() {
-        double[] replay = new double[niveisCinza];
-        double[] dados = new double[niveisCinza];
+        double[] replay = new double[greyScale];
+        double[] dados = new double[greyScale];
         
         //Faz a contagem de quantidade de pixeis até o nivel de cinza        
-        for (int k = 0; k < niveisCinza; k++) {
+        for (int k = 0; k < greyScale; k++) {
             replay[k] = -1;
-            for (int i = 0; i < altura; i++) {
-                for (int j = 0; j < largura; j++) {      
-                    if(matriz[i][j] == k){
+            for (int w = 0; w < Width; w++) {
+                for (int h = 0; h < Height; h++) {      
+                    if(matriz[w][h] == k){
                         if(replay[k] == -1)
                             replay[k] = 0;
                         
@@ -404,9 +404,9 @@ public class Imagem_model {
         }      
         
         //Divide pela Quantidade de Pixeis o Numero de pixels cujo nivel de cinza correspondem ao "k" Nivel
-        for (int i = 0; i < niveisCinza; i++) {  
+        for (int i = 0; i < greyScale; i++) {  
             if(replay[i] > -1)
-                dados[i] = replay[i]/quantidade;
+                dados[i] = replay[i]/quantPixels;
         }
         
         //Retorna a sequencia de valores para histograma
@@ -418,4 +418,29 @@ public class Imagem_model {
     }
     
     
+    /**
+     * <b>Limiarização</b> <i>é um processo de segmentação de imagens que se baseia na 
+     * diferença dos níveis de cinza que compõe diferentes objetos de uma imagem.</i>
+     * <br><br>
+     * A partir de um limiar estabelecido de acordo com as características dos 
+     * objetos que se quer isolar, a imagem pode ser segmentada em dois grupos: 
+     * o grupo de pixels com níveis de cinza abaixo do limiar e o grupo de pixels 
+     * com níveis de cinza acima do limiar. Em uma imagem limiarizada, atribui-se 
+     * um valor fixo para todos os pixels de mesmo grupo.
+     * <hr>
+     * Esta função utiliza a <b> Método de Gonzalez e Woods </b>
+     * @param T Valor do salto
+     */   
+    public void Limiarizacao(int T) {
+        for (int j = 0; j < T; j++) {
+            
+        }
+        for (int h = 0; h < Height; h++) {
+            for (int w = 0; w < Width; w++) {
+                if(matriz[h][w] > T)
+                    matriz[h][w] = 1;
+                else matriz[h][w] = 0;
+            }
+        }
+    }
 }

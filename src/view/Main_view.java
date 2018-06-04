@@ -1009,6 +1009,11 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_melhorias.add(jMenuItem5);
 
         jMenuItem6.setText("* Limiarização");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jmenu_melhorias.add(jMenuItem6);
 
         jMenuBar1.add(jmenu_melhorias);
@@ -1246,10 +1251,10 @@ public class Main_view extends javax.swing.JFrame {
         grafico.setSize(new Dimension(600, 400));
         
         /* Grafico de Barras */
-        //grafico.add(G.criarGraficoBarras(dados, "nome"));       
+        grafico.add(G.criarGraficoBarras(img.Histograma(), img.getNome()));       
         
         /* Grafico de Histograma */ 
-        grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50));
+        //grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50,img.getNiveisCinza()));
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -1258,6 +1263,12 @@ public class Main_view extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_O)
             OpenFile(jtext_opcao_local.getText() + jtext_option_nome.getText() , jtext_option_nome.getText());
     }//GEN-LAST:event_formKeyPressed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        img.Limiarizacao(125);
+        atualizarImagemView();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
