@@ -780,19 +780,20 @@ public class Main_view extends javax.swing.JFrame {
                     .addComponent(jButton9))
                 .addGap(18, 18, 18)
                 .addComponent(jfiltro_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         getContentPane().add(Filtro);
         Filtro.setBounds(870, 0, 330, 130);
 
         Operadores.setClosable(true);
-        Operadores.setTitle("Filtros");
+        Operadores.setTitle("Operadores");
         Operadores.setVisible(false);
 
         jLabel19.setText("Selecione um Operador");
 
-        joperadores_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        joperadores_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sobel", "Prewitt" }));
+        joperadores_selecao.setToolTipText("");
 
         jButton10.setText("Aplicar");
 
@@ -831,12 +832,13 @@ public class Main_view extends javax.swing.JFrame {
         Operadores.setBounds(870, 0, 330, 130);
 
         Realce.setClosable(true);
-        Realce.setTitle("Filtros");
+        Realce.setTitle("Realce");
         Realce.setVisible(false);
 
         jLabel20.setText("Selecione um Realce");
 
-        jrealce_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jrealce_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Raiz Quadrada", "Logarítmico" }));
+        jrealce_selecao.setToolTipText("");
 
         jButton11.setText("Aplicar");
 
@@ -848,13 +850,13 @@ public class Main_view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(RealceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(RealceLayout.createSequentialGroup()
-                        .addComponent(jrealce_selecao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jrealce_selecao, 0, 223, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11))
                     .addGroup(RealceLayout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jrealce_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                    .addComponent(jrealce_loading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         RealceLayout.setVerticalGroup(

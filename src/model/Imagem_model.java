@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -33,7 +32,7 @@ public class Imagem_model {
     private BufferedImage img;
     
     public Imagem_model(String Local, String Nome) throws FileNotFoundException, IOException {      
-        DEBUG = false;
+        DEBUG = true;
         nome = Nome;
         imagem = new File(Local);
         local = Local;
@@ -387,7 +386,6 @@ public class Imagem_model {
     public double[] Histograma() {
         double[] replay = new double[niveisCinza];
         double[] dados = new double[niveisCinza];
-        int Total = 0;
         
         //Faz a contagem de quantidade de pixeis até o nivel de cinza        
         for (int k = 0; k < niveisCinza; k++) {
@@ -405,18 +403,10 @@ public class Imagem_model {
             }
         }      
         
-        //Somatorio dos valores
-        for (int i = 0; i < niveisCinza; i++) {
-            if(replay[i] > -1)
-                Total += replay[i];
-        }
-        
-        if(DEBUG) System.out.println("Total: " + Total);
-        
-        //Divide pelo Total
+        //Divide pela Quantidade de Pixeis o Numero de pixels cujo nivel de cinza correspondem ao "k" Nivel
         for (int i = 0; i < niveisCinza; i++) {  
             if(replay[i] > -1)
-                dados[i] = replay[i]/Total;
+                dados[i] = replay[i]/quantidade;
         }
         
         //Retorna a sequencia de valores para histograma

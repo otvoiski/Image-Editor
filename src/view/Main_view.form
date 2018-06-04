@@ -975,7 +975,7 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jfiltro_loading" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                  <EmptySpace pref="14" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1013,7 +1013,7 @@
     <Container class="javax.swing.JInternalFrame" name="Operadores">
       <Properties>
         <Property name="closable" type="boolean" value="true"/>
-        <Property name="title" type="java.lang.String" value="Filtros"/>
+        <Property name="title" type="java.lang.String" value="Operadores"/>
         <Property name="visible" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -1069,13 +1069,12 @@
         <Component class="javax.swing.JComboBox" name="joperadores_selecao">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="2">
+                <StringItem index="0" value="Sobel"/>
+                <StringItem index="1" value="Prewitt"/>
               </StringArray>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1093,7 +1092,7 @@
     <Container class="javax.swing.JInternalFrame" name="Realce">
       <Properties>
         <Property name="closable" type="boolean" value="true"/>
-        <Property name="title" type="java.lang.String" value="Filtros"/>
+        <Property name="title" type="java.lang.String" value="Realce"/>
         <Property name="visible" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -1109,7 +1108,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jrealce_selecao" max="32767" attributes="0"/>
+                          <Component id="jrealce_selecao" pref="223" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButton11" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -1117,7 +1116,7 @@
                           <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jrealce_loading" alignment="0" pref="294" max="32767" attributes="0"/>
+                      <Component id="jrealce_loading" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -1149,13 +1148,12 @@
         <Component class="javax.swing.JComboBox" name="jrealce_selecao">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="2">
+                <StringItem index="0" value="Raiz Quadrada"/>
+                <StringItem index="1" value="Logar&#xed;tmico"/>
               </StringArray>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

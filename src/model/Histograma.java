@@ -86,7 +86,7 @@ public class Histograma {
     }
     private JFreeChart criarHistograma(HistogramDataset dataset, String nome) {
         String plotTitle = nome;
-        String yaxis = "Número";
+        String yaxis = "Cinza";
         String xaxis = "Píxel";
         PlotOrientation orientation = PlotOrientation.VERTICAL;
         
