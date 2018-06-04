@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -48,7 +49,80 @@ public class Imagem_model {
         }
         
     } 
-   
+
+    public int getPixelMax() {
+        return pixelMax;
+    }
+
+    public int getPixelMin() {
+        return pixelMin;
+    }
+    
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+        
+    public File getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(File imagem) {
+        this.imagem = imagem;
+    }
+
+    public int getAltura() {
+        return altura;
+    }
+
+    public void setAltura(int altura) {
+        this.altura = altura;
+    }
+
+    public int getLargura() {
+        return largura;
+    }
+
+    public void setLargura(int largura) {
+        this.largura = largura;
+    }
+
+    public int getNiveisCinza() {
+        return niveisCinza;
+    }
+
+    public void setNiveisCinza(int niveisCinza) {
+        this.niveisCinza = niveisCinza;
+    }
+
+    public int[][] getMatriz() {
+        return matriz;
+    }
+
+    public void setMatriz(int[][] matriz) {
+        this.matriz = matriz;
+    }    
+
+    /* INICIO FERRAMENTAS */
     private boolean abrirImagem() throws IOException {
         
         if (getImagem() != null) {
@@ -306,79 +380,41 @@ public class Imagem_model {
         }
     }
     
-    /*FIM FERRAMENTAS*/
-
-    public int getPixelMax() {
-        return pixelMax;
-    }
-
-    public int getPixelMin() {
-        return pixelMin;
-    }
     
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
     
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
+    
+    /* INICIO MELHORIAS */    
+    public double[] Histograma() {
+        //ArrayList<Double> dados = new ArrayList<>();
+        double[] replay = new double[niveisCinza];
+        double[] dados = new double[niveisCinza];
+        double Total = 0;
         
-    public File getImagem() {
-        return imagem;
+        //Faz a contagem de quantidade de pixeis até o nivel de cinza        
+        for (int k = 0; k < niveisCinza; k++) {
+            replay[k] = 0;
+            System.out.println(k);
+            for (int i = 0; i < altura; i++) {
+                for (int j = 0; j < largura; j++) {
+                    if(matriz[i][j] == k){
+                        replay[k]++;       
+                    }
+                        
+                }
+            }
+        }      
+        
+        
+        for (int i = 0; i < niveisCinza; i++) {
+            Total += replay[i];
+        }
+        
+        for (int i = 0; i < niveisCinza; i++) {
+            dados[i] = replay[i]/Total;
+        }
+        
+        return dados;
     }
-
-    public void setImagem(File imagem) {
-        this.imagem = imagem;
-    }
-
-    public int getAltura() {
-        return altura;
-    }
-
-    public void setAltura(int altura) {
-        this.altura = altura;
-    }
-
-    public int getLargura() {
-        return largura;
-    }
-
-    public void setLargura(int largura) {
-        this.largura = largura;
-    }
-
-    public int getNiveisCinza() {
-        return niveisCinza;
-    }
-
-    public void setNiveisCinza(int niveisCinza) {
-        this.niveisCinza = niveisCinza;
-    }
-
-    public int[][] getMatriz() {
-        return matriz;
-    }
-
-    public void setMatriz(int[][] matriz) {
-        this.matriz = matriz;
-    }    
 
     
     

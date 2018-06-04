@@ -64,6 +64,14 @@ public class Histograma {
         return painelGrafico;
     }
 
+    private HistogramDataset createDatasetHistograma(double[] dados, int numero){        
+        HistogramDataset dataset = new HistogramDataset();
+        dataset.setType(HistogramType.RELATIVE_FREQUENCY);
+        
+        dataset.addSeries("Histogram", dados, numero);
+        
+        return dataset;
+    }
     private HistogramDataset createDatasetHistograma(ArrayList<Double> dados, int numero){        
         HistogramDataset dataset = new HistogramDataset();
         dataset.setType(HistogramType.RELATIVE_FREQUENCY);
@@ -84,7 +92,7 @@ public class Histograma {
         
         boolean show = false;
         boolean toolTips = false;
-        boolean urls = false;
+        boolean urls = true;
         
         JFreeChart chart = ChartFactory.createHistogram(plotTitle, xaxis, yaxis,dataset, orientation, show, toolTips, urls);        
 
@@ -98,6 +106,21 @@ public class Histograma {
         ChartPanel painelGrafico = new ChartPanel(grafico);
         
         painelGrafico.setPreferredSize(new Dimension(400, 400));
+        
+        if (DEBUG && painelGrafico == null) {
+            System.out.println("painelGrafico está vazio!");
+        }
+        
+        return painelGrafico;
+    }
+    public ChartPanel criarGraficoHistorama(double[] dados, String nome, int numero) {
+        HistogramDataset dataset = this.createDatasetHistograma(dados, numero);
+        
+        JFreeChart grafico = this.criarHistograma(dataset, nome);
+        
+        ChartPanel painelGrafico = new ChartPanel(grafico);
+        
+        painelGrafico.setPreferredSize(new Dimension(600, 400));
         
         if (DEBUG && painelGrafico == null) {
             System.out.println("painelGrafico está vazio!");

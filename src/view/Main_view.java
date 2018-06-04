@@ -5,11 +5,11 @@
  */
 package view;
 
+import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -18,12 +18,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DirectDrawDemo;
 import model.Histograma;
 import model.Imagem_model;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -85,7 +79,23 @@ public class Main_view extends javax.swing.JFrame {
         }
 
     }
-           
+    
+    private void OpenFile(String local, String nome){
+        
+        try {
+            //auto select
+                img = new Imagem_model(local,nome);     
+
+                atualizarImagemView();                    
+
+                RelacionamentoComImagem(true);        
+                            
+               
+        } catch (IOException ex) {
+            Logger.getLogger(Main_view.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+    
     private File OpenFile(){
         JFileChooser file = new JFileChooser(); 
         File arquivo = null;
@@ -150,52 +160,19 @@ public class Main_view extends javax.swing.JFrame {
     
     private void RelacionamentoComImagem(boolean possui_img) { 
         
-        //arquivos
+        //Arquivos
             jmenu_salvar.setEnabled(possui_img);
             jmenu_salvarcomo.setEnabled(possui_img);
             jmenu_propriedades.setEnabled(possui_img);
             
         //Ferramentas
-            jmenu_rotacionar_hor.setEnabled(possui_img);
-            jmenu_rotacionar_anthor.setEnabled(possui_img);
-            jmenu_espelhar_hori.setEnabled(possui_img);
-            jmenu_espelhar_vert.setEnabled(possui_img);
-            jmenu_interpolar.setEnabled(possui_img);
-            jmenu_addRemove.setEnabled(possui_img);
-            jmenu_quatizacao.setEnabled(possui_img);
-            jmenu_amostragem.setEnabled(possui_img);
+            jmenu_ferramentas.setEnabled(possui_img);
+            
+        //Melhorias
+            jmenu_melhorias.setEnabled(possui_img);
             
     }
   
-    
-    public CategoryDataset createDataset(ArrayList<Double> dados){
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
-        for (int i = 0; i < dados.size(); i++){
-            dataset.addValue(dados.get(i), "1", "2");
-            if(DEBUG) System.out.println(dados.get(i));
-        }
-        
-        if(DEBUG && dataset == null) System.out.println("Dataset está vazio!");
-        
-        
-        return dataset;
-    }
-    
-    public JFreeChart createBarChart (CategoryDataset dataset, String nome){
-        JFreeChart graficoBarras = ChartFactory.createBarChart("Histograma - " + nome, "", "Cinza", dataset, PlotOrientation.VERTICAL, true, false, false);
-        if(DEBUG && graficoBarras == null) System.out.println("graficoBarras está vazio!");
-        return graficoBarras;
-    }
-    
-    public ChartPanel criarGrafico(ArrayList<Double> dados, String nome) {
-        CategoryDataset dataset = this.createDataset(dados);
-        JFreeChart grafico = this.createBarChart(dataset, nome);
-        ChartPanel painelGrafico = new ChartPanel(grafico);
-        painelGrafico.setPreferredSize(new Dimension(400,400));
-        if(DEBUG && painelGrafico == null) System.out.println("painelGrafico está vazio!");
-        return painelGrafico;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -265,7 +242,7 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_salvarcomo = new javax.swing.JMenuItem();
         jmenu_propriedades = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        jmenu_ferramentas = new javax.swing.JMenu();
         jmenu_rotacionar_hor = new javax.swing.JMenuItem();
         jmenu_rotacionar_anthor = new javax.swing.JMenuItem();
         jmenu_espelhar_hori = new javax.swing.JMenuItem();
@@ -274,7 +251,7 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_addRemove = new javax.swing.JMenuItem();
         jmenu_quatizacao = new javax.swing.JMenuItem();
         jmenu_amostragem = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jmenu_melhorias = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jmenu_opcao = new javax.swing.JMenuItem();
@@ -283,6 +260,11 @@ public class Main_view extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Manipulação de Imagens - PDI");
         setPreferredSize(new java.awt.Dimension(800, 600));
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         Imagem.setClosable(true);
@@ -723,15 +705,15 @@ public class Main_view extends javax.swing.JFrame {
 
         grafico.setClosable(true);
         grafico.setMinimumSize(new java.awt.Dimension(400, 400));
-        grafico.setNormalBounds(new java.awt.Rectangle(620, 80, 400, 400));
-        grafico.setPreferredSize(new java.awt.Dimension(400, 400));
+        grafico.setNormalBounds(new java.awt.Rectangle(620, 80, 600, 400));
+        grafico.setPreferredSize(new java.awt.Dimension(600, 400));
         grafico.setVisible(false);
 
         javax.swing.GroupLayout graficoLayout = new javax.swing.GroupLayout(grafico.getContentPane());
         grafico.getContentPane().setLayout(graficoLayout);
         graficoLayout.setHorizontalGroup(
             graficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 584, Short.MAX_VALUE)
         );
         graficoLayout.setVerticalGroup(
             graficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -739,7 +721,7 @@ public class Main_view extends javax.swing.JFrame {
         );
 
         getContentPane().add(grafico);
-        grafico.setBounds(800, 0, 400, 400);
+        grafico.setBounds(610, 0, 600, 400);
 
         jMenu1.setText("Arquivo");
 
@@ -786,7 +768,7 @@ public class Main_view extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu4.setText("Ferramentas");
+        jmenu_ferramentas.setText("Ferramentas");
 
         jmenu_rotacionar_hor.setText("Rotacionar 90º (Direita)");
         jmenu_rotacionar_hor.addActionListener(new java.awt.event.ActionListener() {
@@ -794,7 +776,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_rotacionar_horActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_rotacionar_hor);
+        jmenu_ferramentas.add(jmenu_rotacionar_hor);
 
         jmenu_rotacionar_anthor.setText("Rotacionar -90º (Esquerda)");
         jmenu_rotacionar_anthor.addActionListener(new java.awt.event.ActionListener() {
@@ -802,7 +784,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_rotacionar_anthorActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_rotacionar_anthor);
+        jmenu_ferramentas.add(jmenu_rotacionar_anthor);
 
         jmenu_espelhar_hori.setText("Espelhar Horizontal");
         jmenu_espelhar_hori.addActionListener(new java.awt.event.ActionListener() {
@@ -810,7 +792,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_espelhar_horiActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_espelhar_hori);
+        jmenu_ferramentas.add(jmenu_espelhar_hori);
 
         jmenu_espelhar_vert.setText("Espelhar Vertical");
         jmenu_espelhar_vert.addActionListener(new java.awt.event.ActionListener() {
@@ -818,7 +800,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_espelhar_vertActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_espelhar_vert);
+        jmenu_ferramentas.add(jmenu_espelhar_vert);
 
         jmenu_interpolar.setText("Interpolar");
         jmenu_interpolar.addActionListener(new java.awt.event.ActionListener() {
@@ -826,7 +808,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_interpolarActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_interpolar);
+        jmenu_ferramentas.add(jmenu_interpolar);
 
         jmenu_addRemove.setText("Adicionar / Remover");
         jmenu_addRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -834,7 +816,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_addRemoveActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_addRemove);
+        jmenu_ferramentas.add(jmenu_addRemove);
 
         jmenu_quatizacao.setText("Quantização");
         jmenu_quatizacao.addActionListener(new java.awt.event.ActionListener() {
@@ -842,7 +824,7 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_quatizacaoActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_quatizacao);
+        jmenu_ferramentas.add(jmenu_quatizacao);
 
         jmenu_amostragem.setText("Amostragem");
         jmenu_amostragem.addActionListener(new java.awt.event.ActionListener() {
@@ -850,11 +832,11 @@ public class Main_view extends javax.swing.JFrame {
                 jmenu_amostragemActionPerformed(evt);
             }
         });
-        jMenu4.add(jmenu_amostragem);
+        jmenu_ferramentas.add(jmenu_amostragem);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(jmenu_ferramentas);
 
-        jMenu2.setText("Melhorias");
+        jmenu_melhorias.setText("Melhorias");
 
         jMenuItem1.setText("Histograma");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -862,9 +844,9 @@ public class Main_view extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jmenu_melhorias.add(jMenuItem1);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jmenu_melhorias);
 
         jMenu3.setText("Outros");
 
@@ -1091,22 +1073,26 @@ public class Main_view extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-                      
-        ArrayList<Double> dados = new ArrayList<>();
-        
-        
+                
         Histograma G = new Histograma();   
                 
         grafico.setVisible(rootPaneCheckingEnabled);
         grafico.setLayout(new BorderLayout());
+        grafico.setSize(new Dimension(600, 400));
         
         /* Grafico de Barras */
         //grafico.add(G.criarGraficoBarras(dados, "nome"));       
         
-        /* Histograma */ 
-        grafico.add(G.criarGraficoHistorama(dados, "Histograma", 245));
+        /* Grafico de Histograma */ 
+        grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50));
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_O)
+            OpenFile(jtext_opcao_local.getText() + jtext_option_nome.getText() , jtext_option_nome.getText());
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1183,9 +1169,7 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -1206,7 +1190,9 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenu_amostragem;
     private javax.swing.JMenuItem jmenu_espelhar_hori;
     private javax.swing.JMenuItem jmenu_espelhar_vert;
+    private javax.swing.JMenu jmenu_ferramentas;
     private javax.swing.JMenuItem jmenu_interpolar;
+    private javax.swing.JMenu jmenu_melhorias;
     private javax.swing.JMenuItem jmenu_opcao;
     private javax.swing.JMenuItem jmenu_propriedades;
     private javax.swing.JMenuItem jmenu_quatizacao;
