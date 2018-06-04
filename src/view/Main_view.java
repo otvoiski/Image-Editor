@@ -5,15 +5,25 @@
  */
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DirectDrawDemo;
+import model.Histograma;
 import model.Imagem_model;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -25,7 +35,7 @@ public class Main_view extends javax.swing.JFrame {
     File arquivo_somarremover_File;
     JFrame frame;
     DirectDrawDemo panel;
-        
+    boolean DEBUG = true;
     
     /**
      * Creates new form main
@@ -158,7 +168,34 @@ public class Main_view extends javax.swing.JFrame {
     }
   
     
+    public CategoryDataset createDataset(ArrayList<Double> dados){
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        for (int i = 0; i < dados.size(); i++){
+            dataset.addValue(dados.get(i), "1", "2");
+            if(DEBUG) System.out.println(dados.get(i));
+        }
+        
+        if(DEBUG && dataset == null) System.out.println("Dataset está vazio!");
+        
+        
+        return dataset;
+    }
     
+    public JFreeChart createBarChart (CategoryDataset dataset, String nome){
+        JFreeChart graficoBarras = ChartFactory.createBarChart("Histograma - " + nome, "", "Cinza", dataset, PlotOrientation.VERTICAL, true, false, false);
+        if(DEBUG && graficoBarras == null) System.out.println("graficoBarras está vazio!");
+        return graficoBarras;
+    }
+    
+    public ChartPanel criarGrafico(ArrayList<Double> dados, String nome) {
+        CategoryDataset dataset = this.createDataset(dados);
+        JFreeChart grafico = this.createBarChart(dataset, nome);
+        ChartPanel painelGrafico = new ChartPanel(grafico);
+        painelGrafico.setPreferredSize(new Dimension(400,400));
+        if(DEBUG && painelGrafico == null) System.out.println("painelGrafico está vazio!");
+        return painelGrafico;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,6 +257,7 @@ public class Main_view extends javax.swing.JFrame {
         jlabel_descricao_quant = new javax.swing.JLabel();
         jlabel_descricao_max = new javax.swing.JLabel();
         jlabel_descricao_min = new javax.swing.JLabel();
+        grafico = new javax.swing.JInternalFrame();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmenu_abrir = new javax.swing.JMenuItem();
@@ -236,6 +274,8 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_addRemove = new javax.swing.JMenuItem();
         jmenu_quatizacao = new javax.swing.JMenuItem();
         jmenu_amostragem = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jmenu_opcao = new javax.swing.JMenuItem();
         jmenu_sobre = new javax.swing.JMenuItem();
@@ -681,6 +721,26 @@ public class Main_view extends javax.swing.JFrame {
         getContentPane().add(Propriedades);
         Propriedades.setBounds(650, 50, 330, 240);
 
+        grafico.setClosable(true);
+        grafico.setMinimumSize(new java.awt.Dimension(400, 400));
+        grafico.setNormalBounds(new java.awt.Rectangle(620, 80, 400, 400));
+        grafico.setPreferredSize(new java.awt.Dimension(400, 400));
+        grafico.setVisible(false);
+
+        javax.swing.GroupLayout graficoLayout = new javax.swing.GroupLayout(grafico.getContentPane());
+        grafico.getContentPane().setLayout(graficoLayout);
+        graficoLayout.setHorizontalGroup(
+            graficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        graficoLayout.setVerticalGroup(
+            graficoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(grafico);
+        grafico.setBounds(800, 0, 400, 400);
+
         jMenu1.setText("Arquivo");
 
         jmenu_abrir.setText("Abrir");
@@ -793,6 +853,18 @@ public class Main_view extends javax.swing.JFrame {
         jMenu4.add(jmenu_amostragem);
 
         jMenuBar1.add(jMenu4);
+
+        jMenu2.setText("Melhorias");
+
+        jMenuItem1.setText("Histograma");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Outros");
 
@@ -1017,6 +1089,25 @@ public class Main_view extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jmenu_amostragemActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+                      
+        ArrayList<Double> dados = new ArrayList<>();
+        
+        
+        Histograma G = new Histograma();   
+                
+        grafico.setVisible(rootPaneCheckingEnabled);
+        grafico.setLayout(new BorderLayout());
+        
+        /* Grafico de Barras */
+        //grafico.add(G.criarGraficoBarras(dados, "nome"));       
+        
+        /* Histograma */ 
+        grafico.add(G.criarGraficoHistorama(dados, "Histograma", 245));
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1063,6 +1154,7 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JInternalFrame SalvarComo;
     private javax.swing.JInternalFrame Sobre;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JInternalFrame grafico;
     private javax.swing.JLabel imagem_loaded;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1091,9 +1183,11 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
