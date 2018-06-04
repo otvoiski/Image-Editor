@@ -149,7 +149,7 @@ public class Imagem_model {
             if(DEBUG){
                 System.out.println("Tamanha: "+altura+ " | " +largura);
                 System.out.println("Cinza: " + niveisCinza);
-                Error.show("Quantidade Lida: " + getQuantidade());
+                System.out.println("Quantidade Lida: " + getQuantidade());
             }
             return true;        
         }
@@ -412,7 +412,10 @@ public class Imagem_model {
         //Retorna a sequencia de valores para histograma
         return dados;
     }
-
+    
+    public void FiltroExpansao() {
+    
+    }
     
     
 }
