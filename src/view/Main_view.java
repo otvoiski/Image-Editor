@@ -131,21 +131,29 @@ public class Main_view extends javax.swing.JFrame {
     private void atualizarImagemView() {
         if(frame == null) {
             frame = new JFrame();
-            panel = new DirectDrawDemo(img.getWidth(), img.getHeight(),img.getGreyScale(), img.getMatriz());
+            int w = img.getWidth(), h = img.getHeight();
+            
+                        
+            panel = new DirectDrawDemo(w,h,img.getGreyScale(), img.getMatriz());
         
             frame.add(panel);
             frame.pack(); 
             //frame.setVisible(true);
             frame.setTitle(img.getNome());
             
-            
-                Imagem.setVisible(rootPaneCheckingEnabled);
+                if(img.getWidth() < 30)
+                    w = 50;
+                if(img.getHeight()< 30)
+                    h = 50;
+                
+                
+                Imagem.setVisible(true);
                 Imagem.setTitle(img.getNome());                        
-                Imagem.setSize(img.getWidth(),img.getHeight());   
+                Imagem.setSize(w,h);   
             
 
             //aloca o frame com a imagem ao imagem_loaded
-            imagem_loaded.setSize(img.getWidth(),img.getHeight());
+            imagem_loaded.setSize(w,h);
             imagem_loaded.add(panel); 
             
             atualizarPropriedades();

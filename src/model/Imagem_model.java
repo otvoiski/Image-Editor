@@ -130,11 +130,11 @@ public class Imagem_model {
      */
     private int[] N(){        
         int[] N = new int[greyScale];
-        for (int k = 0; k < greyScale; k++) {
+        for (int k = 0; k <= greyScale-1; k++) {
             N[k] = 0;
-            for (int w = 0; w < Width; w++) {
-                for (int h = 0; h < Height; h++) {                       
-                    if(matriz[w][h] == k){                        
+            for (int h = 0; h < Height; h++) {   
+                for (int w = 0; w < Width; w++) {                    
+                    if(matriz[h][w] == k){                        
                         N[k]++;       
                     }                        
                 }
@@ -150,7 +150,7 @@ public class Imagem_model {
      */
     private double[] p(int[] N){
         double[] p = new double[greyScale];
-        for (int i = 0; i < greyScale; i++) {              
+        for (int i = 0; i <= greyScale-1; i++) {              
             p[i] = ((double)N[i])/quantPixels;            
         }
         return p;
@@ -175,16 +175,16 @@ public class Imagem_model {
             this.matriz = new int[getHeight()][getWidth()];
             
             int quantidade = 1;
-            for (int i = 0; i < getHeight(); i++) {
-                for (int j = 0; j < getWidth(); j++) {
-                    this.matriz[i][j] = scan.nextInt();
+            for (int h = 0; h < getHeight(); h++) {
+                for (int w = 0; w < getWidth(); w++) {
+                    this.matriz[h][w] = scan.nextInt();
                     setQuantidade(quantidade);
                     quantidade++ ;
                 }
             }
             
             if(DEBUG){
-                System.out.println("Tamanha: "+Height+ " | " +Width);
+                System.out.println("Tamanho: H["+Height+ "] | W[" +Width+"]");
                 System.out.println("Cinza: " + greyScale);
                 System.out.println("Quantidade Lida: " + getQuantidade());
             }
