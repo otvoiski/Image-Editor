@@ -30,7 +30,6 @@ public class Imagem_model {
     private int pixelMax;
     private int pixelMin;
     private int[][] matriz; 
-    private BufferedImage img;
     
     public Imagem_model(String Local, String Nome) throws FileNotFoundException, IOException {      
         DEBUG = true;
@@ -44,8 +43,7 @@ public class Imagem_model {
         if(!abrirImagem())
             Error.show("Não foi possivel ler a imagem.");
         else {            
-            getMaxMin();
-            img = new BufferedImage(Width, Height, BufferedImage.TYPE_BYTE_GRAY); // Escala de cinza.                      
+            getMaxMin();           
         }
         
     } 
@@ -90,27 +88,27 @@ public class Imagem_model {
         this.imagem = imagem;
     }
 
-    public int getAltura() {
+    public int getHeight() {
         return Height;
     }
 
-    public void setAltura(int altura) {
+    public void setHeigth(int altura) {
         this.Height = altura;
     }
 
-    public int getLargura() {
+    public int getWidth() {
         return Width;
     }
 
-    public void setLargura(int largura) {
+    public void setWidth(int largura) {
         this.Width = largura;
     }
 
-    public int getNiveisCinza() {
+    public int getGreyScale() {
         return greyScale;
     }
 
-    public void setNiveisCinza(int niveisCinza) {
+    public void setGreyScale(int niveisCinza) {
         this.greyScale = niveisCinza;
     }
 
@@ -132,11 +130,11 @@ public class Imagem_model {
      */
     private int[] N(){        
         int[] N = new int[greyScale];
-        for (int k = 0; k < greyScale; k++) {
+        for (int k = 0; k <= greyScale-1; k++) {
             N[k] = 0;
-            for (int w = 0; w < Width; w++) {
-                for (int h = 0; h < Height; h++) {                       
-                    if(matriz[w][h] == k){                        
+            for (int h = 0; h < Height; h++) {   
+                for (int w = 0; w < Width; w++) {                    
+                    if(matriz[h][w] == k){                        
                         N[k]++;       
                     }                        
                 }
@@ -152,7 +150,7 @@ public class Imagem_model {
      */
     private double[] p(int[] N){
         double[] p = new double[greyScale];
-        for (int i = 0; i < greyScale; i++) {              
+        for (int i = 0; i <= greyScale-1; i++) {              
             p[i] = ((double)N[i])/quantPixels;            
         }
         return p;
@@ -170,23 +168,23 @@ public class Imagem_model {
             scan.nextLine(); //discarta P2
             scan.nextLine(); //discarta # COMENTARIO
             
-            setAltura(scan.nextInt());  // Linhas
-            setLargura(scan.nextInt()); // Colunas
-            setNiveisCinza(scan.nextInt()); //Cinza                         
+            setHeigth(scan.nextInt());  // Linhas
+            setWidth(scan.nextInt()); // Colunas
+            setGreyScale(scan.nextInt()); //Cinza                         
                         
-            this.matriz = new int[getAltura()][getLargura()];
+            this.matriz = new int[getHeight()][getWidth()];
             
             int quantidade = 1;
-            for (int i = 0; i < getAltura(); i++) {
-                for (int j = 0; j < getLargura(); j++) {
-                    this.matriz[i][j] = scan.nextInt();
+            for (int h = 0; h < getHeight(); h++) {
+                for (int w = 0; w < getWidth(); w++) {
+                    this.matriz[h][w] = scan.nextInt();
                     setQuantidade(quantidade);
                     quantidade++ ;
                 }
             }
             
             if(DEBUG){
-                System.out.println("Tamanha: "+Height+ " | " +Width);
+                System.out.println("Tamanho: H["+Height+ "] | W[" +Width+"]");
                 System.out.println("Cinza: " + greyScale);
                 System.out.println("Quantidade Lida: " + getQuantidade());
             }
@@ -244,8 +242,8 @@ public class Imagem_model {
     private void getMaxMin(){ //Maior valor da imamge
         int max = 0;
         int min = 0;
-        for (int i = 0; i < getAltura(); i++) {
-            for (int j = 0; j < getLargura(); j++) {               
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {               
             
                 if(matriz[i][j] > max)
                     max = matriz[i][j];
@@ -327,9 +325,9 @@ public class Imagem_model {
         }        
         
         
-        setLargura(Width);
+        setWidth(Width);
         setMatriz(nvmatriz);
-        setAltura(Height);
+        setHeigth(Height);
         
     }
     
@@ -345,9 +343,9 @@ public class Imagem_model {
             }
         }        
         
-        setLargura(largura);
+        setWidth(largura);
         setMatriz(nvmatriz);
-        setAltura(altura);
+        setHeigth(altura);
          
      }
         
@@ -392,10 +390,10 @@ public class Imagem_model {
     
     public void Quantizacao(int nivel){
         
-        int[][] matrizAux = new int[this.getAltura()][this.getLargura()];
+        int[][] matrizAux = new int[this.getHeight()][this.getWidth()];
 
-        for(int k = 0 ; k < getAltura() / nivel ; k++){
-            for(int l = 0 ; l< getLargura() / nivel ; l++){
+        for(int k = 0 ; k < getHeight() / nivel ; k++){
+            for(int l = 0 ; l< getWidth() / nivel ; l++){
                 for(int i = k * nivel ; i < ((k+1) * nivel);i++){
                     for(int j = l * nivel ; j < ((l+1)* nivel) ; j++){
                         matrizAux[k][l] += matriz[i][j];
@@ -406,8 +404,8 @@ public class Imagem_model {
         }
 
 
-        for(int k = 0 ; k < getAltura()/ nivel ; k++){
-            for(int l = 0 ; l < getLargura() / nivel ; l++){
+        for(int k = 0 ; k < getHeight()/ nivel ; k++){
+            for(int l = 0 ; l < getWidth() / nivel ; l++){
                 for(int i = k * nivel ; i < ((k+1) * nivel) ; i++){
                     for(int j = l * nivel; j < ((l+1) * nivel) ; j++){
                         matriz[i][j] = matrizAux[k][l];
@@ -445,22 +443,20 @@ public class Imagem_model {
      * Esta função utiliza a <b> Método de Otsu </b>
      * @param T Limiar, ponto Chave
      */   
-    public void Limiarizacao(int T, JProgressBar loading){
+    public void Limiarizacao(int T){
         double[] P = new double[greyScale];
         double M = Double.MIN_VALUE; //Melhor Valor
                 
         for (int i = T; i <= greyScale-1; i++) {
-            P[i] = Variancia(i, loading); 
+            P[i] = Variancia(i); 
         }
-        loading.setValue(60);
         
         for (int i = T; i <= greyScale-1; i++) {
             if(P[i] > M){
-                M = P[i];
+                M = (double) P[i];
             }
         }
         if(DEBUG) System.out.println("[LIMIARIZAÇÃO] M = " + M);
-        loading.setValue(70);
         
         /* Faz a separação com base o melhor Valor! */
         for (int h = 0; h < Height; h++) {
@@ -470,7 +466,6 @@ public class Imagem_model {
                 } else matriz[h][w] = 0;
             }
         }
-        loading.setValue(100);
     }
     
     /**
@@ -482,7 +477,7 @@ public class Imagem_model {
      * Variancia(T) é variança.
      * @param T 
      */
-    private double Variancia(int T, JProgressBar loading) {
+    private double Variancia(int T) {
         
         int L = greyScale;  //Nivel de Cinza
         int[] N = N();
@@ -497,42 +492,37 @@ public class Imagem_model {
         
         //C1 [0,T]
         for (int i = 0; i <= T; i++) {
-            P1 += p[i];
+            P1 += (double) p[i];
             //M1 += i * p[i];
         }   
-        loading.setValue(10);
         
         for (int i = 0; i <= T; i++) {            
-            M1 += i * p[i];
+            M1 += i * (double) p[i];
         }   
-        loading.setValue(20);
-        M1 = M1/P1;
+        M1 = (double) M1/P1;
         
         
         
         
         //C2[T+1,L-1]        
         for (int i = T+1; i <= L-1; i++) {
-            P2 += p[i];
+            P2 += (double) p[i];
         }
-        loading.setValue(30);
         
         for (int i = T+1; i <= L-1; i++) {
-            M2 += i * p[i];
+            M2 += i * (double) p[i];
         }
         
-        M2 = M2/P2;
-        loading.setValue(40);
+        M2 = (double) M2/P2;
         
         
         
         //MG[0,L-1]
         for (int i = 0; i <= L-1; i++) {
-            MG += i * p[i];
+            MG += i * (double) p[i];
         }
-        loading.setValue(50);
         
         // E se o menor pixel for 24?
-        return (P1 * Math.pow((M1 - MG), 2)) + (P2 * Math.pow((M2 - MG), 2));
+        return (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2));
     }
 }
