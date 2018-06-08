@@ -384,29 +384,31 @@ public class Imagem_model {
     
     /* INICIO MELHORIAS */    
     public double[] Histograma() {
-        double[] replay = new double[greyScale];
+        int[] NK = new int[greyScale];
         double[] dados = new double[greyScale];
         
-        //Faz a contagem de quantidade de pixeis até o nivel de cinza        
+        
+        //Faz a contagem de quantidade de pixeis até o nivel de cinza        N^k
         for (int k = 0; k < greyScale; k++) {
-            replay[k] = -1;
+            NK[k] = 0;
             for (int w = 0; w < Width; w++) {
-                for (int h = 0; h < Height; h++) {      
-                    if(matriz[w][h] == k){
-                        if(replay[k] == -1)
-                            replay[k] = 0;
-                        
-                        replay[k]++;       
-                    }
-                        
+                for (int h = 0; h < Height; h++) {                       
+                    if(matriz[w][h] == k){                        
+                        NK[k]++;       
+                    }                        
                 }
             }
         }      
         
+        for (int i = 0; i < greyScale; i++) {
+            if(DEBUG) System.out.println("K = " + i + " -> " + NK[i]);
+        }
+        if(DEBUG) System.out.println("Total: " + quantPixels);
+        
         //Divide pela Quantidade de Pixeis o Numero de pixels cujo nivel de cinza correspondem ao "k" Nivel
-        for (int i = 0; i < greyScale; i++) {  
-            if(replay[i] > -1)
-                dados[i] = replay[i]/quantPixels;
+        for (int i = 0; i < greyScale; i++) {              
+            dados[i] = ((double)NK[i])/quantPixels;
+            if(DEBUG) System.out.println(NK[i] + " / " + quantPixels + " = " + ((double)NK[i]/quantPixels));
         }
         
         //Retorna a sequencia de valores para histograma
@@ -428,10 +430,20 @@ public class Imagem_model {
      * com níveis de cinza acima do limiar. Em uma imagem limiarizada, atribui-se 
      * um valor fixo para todos os pixels de mesmo grupo.
      * <hr>
-     * Esta função utiliza a <b> Método de Gonzalez e Woods </b>
-     * @param T Valor do salto
+     * C1 0 até T
+     * C2 T+1 até L-1
+     * p = Probabilidade
+     * P = Soma
+     * multiplaca i pela probalidade. (i* p^i)
+     * o²(T) é variança.
+     * <hr>
+     * Esta função utiliza a <b> Método de Otsu </b>
+     * @param T Limiar, ponto Chave
+     * @param L Nivel de Cinza
      */   
-    public void Limiarizacao(int T) {
+    public void Limiarizacao(int T, int L) {
+        
+        
         for (int j = 0; j < T; j++) {
             
         }

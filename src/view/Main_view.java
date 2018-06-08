@@ -18,6 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DirectDrawDemo;
 import model.Histograma;
 import model.Imagem_model;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -48,7 +49,8 @@ public class Main_view extends javax.swing.JFrame {
         
         String Local = "src/img/";
         //String Nome = "mona_lisa.ascii.pgm";
-        String Nome = "lena.ascii.pgm";
+        //String Nome = "lena.ascii.pgm";
+        String Nome = "imagem8Cinza.pgm";
         
         jtext_opcao_local.setText(Local);
         jtext_option_nome.setText(Nome);        
@@ -723,6 +725,7 @@ public class Main_view extends javax.swing.JFrame {
         Propriedades.setBounds(650, 50, 330, 240);
 
         grafico.setClosable(true);
+        grafico.setResizable(true);
         grafico.setMinimumSize(new java.awt.Dimension(400, 400));
         grafico.setNormalBounds(new java.awt.Rectangle(620, 80, 600, 400));
         grafico.setPreferredSize(new java.awt.Dimension(600, 400));
@@ -1251,10 +1254,11 @@ public class Main_view extends javax.swing.JFrame {
         grafico.setSize(new Dimension(600, 400));
         
         /* Grafico de Barras */
-        grafico.add(G.criarGraficoBarras(img.Histograma(), img.getNome()));       
+        grafico.add(G.criarGraficoBarras(img.Histograma(), img.getNome()));
+        
         
         /* Grafico de Histograma */ 
-        //grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50,img.getNiveisCinza()));
+        //grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50, img.getPixelMin(), img.getNiveisCinza()));      
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -1266,7 +1270,7 @@ public class Main_view extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        img.Limiarizacao(125);
+        img.Limiarizacao(125,0);
         atualizarImagemView();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -1281,7 +1285,7 @@ public class Main_view extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
