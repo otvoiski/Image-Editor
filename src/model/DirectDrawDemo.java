@@ -17,21 +17,19 @@ public class DirectDrawDemo extends JPanel {
         this.matrix = matrix;
         this.greyscale = grey;
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        paint_canvas(width, height);
+        paint_canvas();
    } 
     
-    public void paint_canvas(int width, int height) {
+    public void paint_canvas() {
 	// TODO Auto-generated method stub 
         int pixel;
-        for (int w = 0; w < canvas.getWidth(); w++) {
-            for (int h = 0; h < canvas.getHeight(); h++) {    
+        
+        for (int h = 0; h < canvas.getHeight(); h++) {   
+            for (int w = 0; w < canvas.getWidth(); w++) { 
+                pixel = matrix[h][w];               
                 
-                //pixel = (matrix[w][h] / greyscale) * 255;                
-                
-                pixel = matrix[w][h];               
-                
-                if(pixel > greyscale)
-                    pixel = greyscale;
+                if(pixel >= greyscale)
+                    pixel = greyscale-1;
 
                 Color grey = new Color(pixel,pixel,pixel);
                 
@@ -39,8 +37,7 @@ public class DirectDrawDemo extends JPanel {
                 //canvas.setRGB(y, x, (new Color((int)pixel ,(int)pixel ,(int)pixel )).getRGB());//((float) (matrix[x][y])));// / Math.pow(2, 5.456548)))); 
                 //canvas.setRGB(y, x, grey.getRGB());//((float) (matrix[x][y])));// / Math.pow(2, 5.456548)))); 
                 
-                
-                canvas.setRGB(h, w, grey.getRGB());
+                canvas.setRGB(w, h, grey.getRGB()); 
             }
         } 
         
@@ -50,7 +47,7 @@ public class DirectDrawDemo extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(canvas.getWidth(), canvas.getHeight());
+        return new Dimension(canvas.getWidth(),canvas.getHeight());
     }
 
     @Override

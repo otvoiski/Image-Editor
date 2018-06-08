@@ -120,9 +120,9 @@ public class Main_view extends javax.swing.JFrame {
     private void atualizarPropriedades(){
         jlabel_descricao_nome.setText(img.getNome());
         jlabel_descricao_local.setText(img.getLocal());
-        jlabel_descricao_altura.setText(String.valueOf(img.getAltura()));
-        jlabel_descricao_largura.setText(String.valueOf(img.getLargura()));
-        jlabel_descricao_cinza.setText(String.valueOf(img.getNiveisCinza()));
+        jlabel_descricao_altura.setText(String.valueOf(img.getHeight()));
+        jlabel_descricao_largura.setText(String.valueOf(img.getWidth()));
+        jlabel_descricao_cinza.setText(String.valueOf(img.getGreyScale()));
         jlabel_descricao_quant.setText(String.valueOf(img.getQuantidade()));
         jlabel_descricao_max.setText(String.valueOf(img.getPixelMax()));
         jlabel_descricao_min.setText(String.valueOf(img.getPixelMin()));
@@ -131,7 +131,7 @@ public class Main_view extends javax.swing.JFrame {
     private void atualizarImagemView() {
         if(frame == null) {
             frame = new JFrame();
-            panel = new DirectDrawDemo(img.getAltura(), img.getLargura(),img.getNiveisCinza(), img.getMatriz());
+            panel = new DirectDrawDemo(img.getWidth(), img.getHeight(),img.getGreyScale(), img.getMatriz());
         
             frame.add(panel);
             frame.pack(); 
@@ -141,11 +141,11 @@ public class Main_view extends javax.swing.JFrame {
             
                 Imagem.setVisible(rootPaneCheckingEnabled);
                 Imagem.setTitle(img.getNome());                        
-                Imagem.setSize(img.getAltura(), img.getLargura());   
+                Imagem.setSize(img.getWidth(),img.getHeight());   
             
 
             //aloca o frame com a imagem ao imagem_loaded
-            imagem_loaded.setSize(img.getAltura(), img.getLargura());
+            imagem_loaded.setSize(img.getWidth(),img.getHeight());
             imagem_loaded.add(panel); 
             
             atualizarPropriedades();
@@ -1220,13 +1220,13 @@ public class Main_view extends javax.swing.JFrame {
                 imagem_for_use = new Imagem_model(arquivo_somarremover_File.getPath(),arquivo_somarremover_File.getName());                 
                 
                 if(jRadioButton1.isSelected()){ //adicionar
-                    img.Somar(imagem_for_use.getMatriz(),imagem_for_use.getAltura(),imagem_for_use.getLargura());                    
+                    img.Somar(imagem_for_use.getMatriz(),imagem_for_use.getHeight(),imagem_for_use.getWidth());                    
                                       
                     atualizarImagemView();                    
                 }
                 
                 if(jRadioButton2.isSelected()){ //subtrair
-                    img.Subtrair(imagem_for_use.getMatriz(),imagem_for_use.getAltura(),imagem_for_use.getLargura());                    
+                    img.Subtrair(imagem_for_use.getMatriz(),imagem_for_use.getHeight(),imagem_for_use.getWidth());                    
                                       
                     atualizarImagemView();                    
                 }
@@ -1345,13 +1345,19 @@ public class Main_view extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
+        
+        jlimia_loading.setValue(0);
         if(!jlimia_T.getText().isEmpty()){
             try {                
-                img.Limiarizacao(Integer.parseInt(jlimia_T.getText()), jlimia_loading);
+                
+                img.Limiarizacao(Integer.parseInt(jlimia_T.getText()));
                 atualizarImagemView();
-                Limiarizacao.dispose();
+                
+                jlimia_loading.setValue(100);
             } catch (Exception e) {
                 model.Error.show("Falha! favor inserir somente números.");
+                
+                jlimia_loading.setValue(30);
             }
         }
     }//GEN-LAST:event_jButton12ActionPerformed
