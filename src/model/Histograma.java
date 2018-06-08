@@ -6,8 +6,8 @@
 package model;
 
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,6 +25,19 @@ public class Histograma {
 
     public Boolean DEBUG = false;
 
+    /**
+     * Insere os dados ao data set
+     * @param dados
+     * @return 
+     */
+    private CategoryDataset createDatasetBar(double[] dados) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DecimalFormat df = new DecimalFormat("###,##0.000");            
+        for (int i = 0; i < dados.length; i++) {         
+            dataset.addValue(dados[i], "Histograma", "" + (i+1));  
+        }
+        return dataset;
+    }
     private CategoryDataset createDatasetBar(ArrayList<Double> dados) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
@@ -34,15 +47,10 @@ public class Histograma {
                 System.out.println(dados.get(i));
             }
         }
-
-        if (DEBUG && dataset == null) {
-            System.out.println("Dataset está vazio!");
-        }
-
         return dataset;
     }
     private JFreeChart criarBarChart(CategoryDataset dataset, String nome) {
-        JFreeChart graficoBarras = ChartFactory.createBarChart("Histograma - " + nome, "", "Cinza", dataset, PlotOrientation.HORIZONTAL, true, true, false);
+        JFreeChart graficoBarras = ChartFactory.createBarChart("Histograma - " + nome, "Pixel", "Cinza", dataset, PlotOrientation.VERTICAL, true, true, true);
         if (DEBUG && graficoBarras == null) {
             System.out.println("graficoBarras está vazio!");
         }
@@ -57,22 +65,29 @@ public class Histograma {
         
         painelGrafico.setPreferredSize(new Dimension(400, 400));
         
-        if (DEBUG && painelGrafico == null) {
-            System.out.println("painelGrafico está vazio!");
-        }
+        return painelGrafico;
+    }
+    public ChartPanel criarGraficoBarras(double[] dados, String nome) {
+        CategoryDataset dataset = this.createDatasetBar(dados);
+        
+        JFreeChart grafico = this.criarBarChart(dataset, nome);
+        
+        ChartPanel painelGrafico = new ChartPanel(grafico);
+        
+        painelGrafico.setPreferredSize(new Dimension(600, 400));
         
         return painelGrafico;
     }
 
-    private HistogramDataset createDatasetHistograma(double[] dados, int numero){        
+    private HistogramDataset createDatasetHistograma(double[] dados, int numero,int minPixel, int grey){        
         HistogramDataset dataset = new HistogramDataset();
         dataset.setType(HistogramType.RELATIVE_FREQUENCY);
         
-        dataset.addSeries("Histogram", dados, numero);
+        dataset.addSeries("Histogram", dados, numero,0,grey);
         
         return dataset;
     }
-    private HistogramDataset createDatasetHistograma(ArrayList<Double> dados, int numero){        
+    private HistogramDataset createDatasetHistograma(ArrayList<Double> dados, int numero, int minPixel, int grey){        
         HistogramDataset dataset = new HistogramDataset();
         dataset.setType(HistogramType.RELATIVE_FREQUENCY);
         
@@ -80,7 +95,7 @@ public class Histograma {
         for (int i = 0; i < dados.size(); i++) {
             values[i] = dados.get(i);
         }
-        dataset.addSeries("Histogram", values, numero);
+        dataset.addSeries("Histogram", values, numero,minPixel,grey);
         
         return dataset;
     }
@@ -92,29 +107,13 @@ public class Histograma {
         
         boolean show = false;
         boolean toolTips = false;
-        boolean urls = true;
+        boolean urls = false;
         
         JFreeChart chart = ChartFactory.createHistogram(plotTitle, xaxis, yaxis,dataset, orientation, show, toolTips, urls);        
-
         return chart;
     }
-    public ChartPanel criarGraficoHistorama(ArrayList<Double> dados, String nome, int numero) {
-        HistogramDataset dataset = this.createDatasetHistograma(dados, numero);
-        
-        JFreeChart grafico = this.criarHistograma(dataset, nome);
-        
-        ChartPanel painelGrafico = new ChartPanel(grafico);
-        
-        painelGrafico.setPreferredSize(new Dimension(400, 400));
-        
-        if (DEBUG && painelGrafico == null) {
-            System.out.println("painelGrafico está vazio!");
-        }
-        
-        return painelGrafico;
-    }
-    public ChartPanel criarGraficoHistorama(double[] dados, String nome, int numero) {
-        HistogramDataset dataset = this.createDatasetHistograma(dados, numero);
+    public ChartPanel criarGraficoHistorama(ArrayList<Double> dados, String nome, int numero,int minPixel, int grey) {
+        HistogramDataset dataset = this.createDatasetHistograma(dados, numero,minPixel, grey);
         
         JFreeChart grafico = this.criarHistograma(dataset, nome);
         
@@ -122,9 +121,16 @@ public class Histograma {
         
         painelGrafico.setPreferredSize(new Dimension(600, 400));
         
-        if (DEBUG && painelGrafico == null) {
-            System.out.println("painelGrafico está vazio!");
-        }
+        return painelGrafico;
+    }
+    public ChartPanel criarGraficoHistorama(double[] dados, String nome, int numero, int minPixel, int grey) {
+        HistogramDataset dataset = this.createDatasetHistograma(dados, numero, minPixel,grey);
+        
+        JFreeChart grafico = this.criarHistograma(dataset, nome);
+        
+        ChartPanel painelGrafico = new ChartPanel(grafico);
+        
+        painelGrafico.setPreferredSize(new Dimension(600, 400));
         
         return painelGrafico;
     }

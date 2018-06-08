@@ -18,6 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DirectDrawDemo;
 import model.Histograma;
 import model.Imagem_model;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -48,7 +49,8 @@ public class Main_view extends javax.swing.JFrame {
         
         String Local = "src/img/";
         //String Nome = "mona_lisa.ascii.pgm";
-        String Nome = "lena.ascii.pgm";
+        //String Nome = "lena.ascii.pgm";
+        String Nome = "imagem8Cinza.pgm";
         
         jtext_opcao_local.setText(Local);
         jtext_option_nome.setText(Nome);        
@@ -723,6 +725,7 @@ public class Main_view extends javax.swing.JFrame {
         Propriedades.setBounds(650, 50, 330, 240);
 
         grafico.setClosable(true);
+        grafico.setResizable(true);
         grafico.setMinimumSize(new java.awt.Dimension(400, 400));
         grafico.setNormalBounds(new java.awt.Rectangle(620, 80, 600, 400));
         grafico.setPreferredSize(new java.awt.Dimension(600, 400));
@@ -1009,6 +1012,11 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_melhorias.add(jMenuItem5);
 
         jMenuItem6.setText("* Limiarização");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jmenu_melhorias.add(jMenuItem6);
 
         jMenuBar1.add(jmenu_melhorias);
@@ -1246,10 +1254,11 @@ public class Main_view extends javax.swing.JFrame {
         grafico.setSize(new Dimension(600, 400));
         
         /* Grafico de Barras */
-        //grafico.add(G.criarGraficoBarras(dados, "nome"));       
+        grafico.add(G.criarGraficoBarras(img.Histograma(), img.getNome()));
+        
         
         /* Grafico de Histograma */ 
-        grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50));
+        //grafico.add(G.criarGraficoHistorama(img.Histograma(), img.getNome(), 50, img.getPixelMin(), img.getNiveisCinza()));      
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -1258,6 +1267,12 @@ public class Main_view extends javax.swing.JFrame {
         if(evt.getKeyCode() == KeyEvent.VK_O)
             OpenFile(jtext_opcao_local.getText() + jtext_option_nome.getText() , jtext_option_nome.getText());
     }//GEN-LAST:event_formKeyPressed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        img.Limiarizacao(125,0);
+        atualizarImagemView();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1270,7 +1285,7 @@ public class Main_view extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
