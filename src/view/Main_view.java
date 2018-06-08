@@ -50,7 +50,8 @@ public class Main_view extends javax.swing.JFrame {
         String Local = "src/img/";
         //String Nome = "mona_lisa.ascii.pgm";
         //String Nome = "lena.ascii.pgm";
-        String Nome = "imagem8Cinza.pgm";
+        //String Nome = "8x8-8.pgm";
+        String Nome = "4x4-8.pgm";
         
         jtext_opcao_local.setText(Local);
         jtext_option_nome.setText(Nome);        
@@ -252,6 +253,13 @@ public class Main_view extends javax.swing.JFrame {
         jrealce_selecao = new javax.swing.JComboBox<>();
         jButton11 = new javax.swing.JButton();
         jrealce_loading = new javax.swing.JProgressBar();
+        Limiarizacao = new javax.swing.JInternalFrame();
+        jLabel21 = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
+        jlimia_loading = new javax.swing.JProgressBar();
+        jlimia_T = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmenu_abrir = new javax.swing.JMenuItem();
@@ -879,6 +887,68 @@ public class Main_view extends javax.swing.JFrame {
         getContentPane().add(Realce);
         Realce.setBounds(870, 0, 330, 130);
 
+        Limiarizacao.setClosable(true);
+        Limiarizacao.setTitle("Limiarização");
+        Limiarizacao.setToolTipText("");
+        Limiarizacao.setVisible(false);
+
+        jLabel21.setText("Informe o valor de T");
+
+        jButton12.setText("Aplicar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jlimia_T.setText("1");
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel22.setText("T (");
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel23.setText(")");
+
+        javax.swing.GroupLayout LimiarizacaoLayout = new javax.swing.GroupLayout(Limiarizacao.getContentPane());
+        Limiarizacao.getContentPane().setLayout(LimiarizacaoLayout);
+        LimiarizacaoLayout.setHorizontalGroup(
+            LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LimiarizacaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LimiarizacaoLayout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlimia_T)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton12))
+                    .addGroup(LimiarizacaoLayout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jlimia_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        LimiarizacaoLayout.setVerticalGroup(
+            LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LimiarizacaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12)
+                    .addComponent(jlimia_T, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel23))
+                .addGap(18, 18, 18)
+                .addComponent(jlimia_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(Limiarizacao);
+        Limiarizacao.setBounds(870, 0, 330, 130);
+
         jMenu1.setText("Arquivo");
 
         jmenu_abrir.setText("Abrir");
@@ -1270,9 +1340,21 @@ public class Main_view extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        img.Limiarizacao(125,0);
-        atualizarImagemView();
+        Limiarizacao.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        if(!jlimia_T.getText().isEmpty()){
+            try {                
+                img.Limiarizacao(Integer.parseInt(jlimia_T.getText()), jlimia_loading);
+                atualizarImagemView();
+                Limiarizacao.dispose();
+            } catch (Exception e) {
+                model.Error.show("Falha! favor inserir somente números.");
+            }
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1315,6 +1397,7 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JInternalFrame Filtro;
     private javax.swing.JInternalFrame Imagem;
     private javax.swing.JInternalFrame ImagemEditada;
+    private javax.swing.JInternalFrame Limiarizacao;
     private javax.swing.JInternalFrame Opcao;
     private javax.swing.JInternalFrame Operadores;
     private javax.swing.JInternalFrame Propriedades;
@@ -1328,6 +1411,7 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1349,6 +1433,9 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1380,6 +1467,8 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jlabel_descricao_nome;
     private javax.swing.JLabel jlabel_descricao_quant;
     private javax.swing.JLabel jlabel_imagemeditada_imagem;
+    private javax.swing.JTextField jlimia_T;
+    private javax.swing.JProgressBar jlimia_loading;
     private javax.swing.JMenuItem jmenu_abrir;
     private javax.swing.JMenuItem jmenu_addRemove;
     private javax.swing.JMenuItem jmenu_amostragem;
