@@ -121,6 +121,44 @@ public class Imagem_model {
         this.matriz = matriz;
     }    
 
+    
+    
+    /* PLUS */
+    
+    /**
+     * Faz a contagem de quantidade de pixeis até o nivel de cinza        N^k
+     * @return int[] N
+     */
+    private int[] N(){        
+        int[] N = new int[greyScale];
+        for (int k = 0; k < greyScale; k++) {
+            N[k] = 0;
+            for (int w = 0; w < Width; w++) {
+                for (int h = 0; h < Height; h++) {                       
+                    if(matriz[w][h] == k){                        
+                        N[k]++;       
+                    }                        
+                }
+            }
+        } 
+        return N;
+    }
+    
+     /**
+     * Divide pela Quantidade de Pixeis o Numero de pixels cujo nivel de cinza correspondem ao "k" Nivel
+     * @param int[] N Contagem de pixeis por nivel de cinza.
+     * @return double[] p
+     */
+    private double[] p(int[] N){
+        double[] p = new double[greyScale];
+        for (int i = 0; i < greyScale; i++) {              
+            p[i] = ((double)N[i])/quantPixels;            
+        }
+        return p;
+    }
+    
+    
+    
     /* INICIO FERRAMENTAS */
     private boolean abrirImagem() throws IOException {
         
@@ -384,41 +422,14 @@ public class Imagem_model {
     
     /* INICIO MELHORIAS */    
     public double[] Histograma() {
-        int[] NK = new int[greyScale];
-        double[] dados = new double[greyScale];
-        
-        
-        //Faz a contagem de quantidade de pixeis até o nivel de cinza        N^k
-        for (int k = 0; k < greyScale; k++) {
-            NK[k] = 0;
-            for (int w = 0; w < Width; w++) {
-                for (int h = 0; h < Height; h++) {                       
-                    if(matriz[w][h] == k){                        
-                        NK[k]++;       
-                    }                        
-                }
-            }
-        }      
-        
-        for (int i = 0; i < greyScale; i++) {
-            if(DEBUG) System.out.println("K = " + i + " -> " + NK[i]);
-        }
-        if(DEBUG) System.out.println("Total: " + quantPixels);
-        
-        //Divide pela Quantidade de Pixeis o Numero de pixels cujo nivel de cinza correspondem ao "k" Nivel
-        for (int i = 0; i < greyScale; i++) {              
-            dados[i] = ((double)NK[i])/quantPixels;
-            if(DEBUG) System.out.println(NK[i] + " / " + quantPixels + " = " + ((double)NK[i]/quantPixels));
-        }
-        
+        int[] N = N();        
         //Retorna a sequencia de valores para histograma
-        return dados;
+        return p(N);
     }
     
     public void FiltroExpansao() {
     
     }
-    
     
     /**
      * <b>Limiarização</b> <i>é um processo de segmentação de imagens que se baseia na 
@@ -430,29 +441,91 @@ public class Imagem_model {
      * com níveis de cinza acima do limiar. Em uma imagem limiarizada, atribui-se 
      * um valor fixo para todos os pixels de mesmo grupo.
      * <hr>
+     * Esta função utiliza a <b> Método de Otsu </b>
+     * @param T Limiar, ponto Chave
+     */   
+    public void Limiarizacao(int T){
+        double[] P = new double[greyScale];
+        double M = Double.MIN_VALUE; //Melhor Valor
+                
+        for (int i = T; i < greyScale; i++) {
+            P[i] = Variancia(i);
+        }
+        
+        for (int i = T; i < greyScale; i++) {
+            if(P[i] > M){
+                M = P[i];
+            }
+        }
+        /* Faz a separação com base o melhor Valor! */
+        for (int h = 0; h < Height; h++) {
+            for (int w = 0; w < Width; w++) {
+                if(matriz[h][w] > M){
+                    matriz[h][w] = (int) M;
+                    //matriz[h][w] = 1;
+                } else matriz[h][w] = 0;
+            }
+        }
+    }
+    
+    /**
      * C1 0 até T
      * C2 T+1 até L-1
      * p = Probabilidade
      * P = Soma
-     * multiplaca i pela probalidade. (i* p^i)
-     * o²(T) é variança.
-     * <hr>
-     * Esta função utiliza a <b> Método de Otsu </b>
-     * @param T Limiar, ponto Chave
-     * @param L Nivel de Cinza
-     */   
-    public void Limiarizacao(int T, int L) {
+     * multiplaca i pela probalidade. (i* p[i])
+     * Variancia(T) é variança.
+     * @param T 
+     */
+    private double Variancia(int T) {
+        
+        int L = greyScale;  //Nivel de Cinza
+        int[] N = N();
+        double[] p = p(N);
+        
+        double P1 = 0;
+        double P2 = 0;
+        double M1 = 0;
+        double M2 = 0;        
+        double MG = 0;        
         
         
-        for (int j = 0; j < T; j++) {
-            
+        //C1 [0,T]
+        for (int i = 0; i <= T; i++) {
+            P1 += p[i];
+            //M1 += i * p[i];
+        }   
+        
+        for (int i = 0; i <= T; i++) {            
+            M1 += i * p[i];
+        }   
+        
+        M1 = M1/P1;
+        
+        
+        
+        
+        //C2[T+1,L-1]        
+        for (int i = T+1; i <= L-1; i++) {
+            P2 += p[i];
         }
-        for (int h = 0; h < Height; h++) {
-            for (int w = 0; w < Width; w++) {
-                if(matriz[h][w] > T)
-                    matriz[h][w] = 1;
-                else matriz[h][w] = 0;
-            }
+        
+        for (int i = T+1; i <= L-1; i++) {
+            M2 += i * p[i];
         }
+        
+        M2 = M2/P2;
+        
+        
+        
+        
+        //MG[0,L-1]
+        for (int i = 0; i <= L-1; i++) {
+            MG += i * p[i];
+        }
+        
+        
+        
+        return (P1 * Math.pow((M1 - MG), 2)) + (P2 * Math.pow((M2 - MG), 2));
     }
 }
