@@ -1346,8 +1346,13 @@ public class Main_view extends javax.swing.JFrame {
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
         if(!jlimia_T.getText().isEmpty()){
-            img.Limiarizacao(Integer.parseInt(jlimia_T.getText()));
-            atualizarImagemView();
+            try {                
+                img.Limiarizacao(Integer.parseInt(jlimia_T.getText()), jlimia_loading);
+                atualizarImagemView();
+                Limiarizacao.dispose();
+            } catch (Exception e) {
+                model.Error.show("Falha! favor inserir somente números.");
+            }
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 

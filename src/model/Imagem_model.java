@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -444,28 +445,32 @@ public class Imagem_model {
      * Esta função utiliza a <b> Método de Otsu </b>
      * @param T Limiar, ponto Chave
      */   
-    public void Limiarizacao(int T){
+    public void Limiarizacao(int T, JProgressBar loading){
         double[] P = new double[greyScale];
         double M = Double.MIN_VALUE; //Melhor Valor
                 
-        for (int i = T; i < greyScale; i++) {
-            P[i] = Variancia(i);
+        for (int i = T; i <= greyScale-1; i++) {
+            P[i] = Variancia(i, loading); 
         }
+        loading.setValue(60);
         
-        for (int i = T; i < greyScale; i++) {
+        for (int i = T; i <= greyScale-1; i++) {
             if(P[i] > M){
                 M = P[i];
             }
         }
+        if(DEBUG) System.out.println("[LIMIARIZAÇÃO] M = " + M);
+        loading.setValue(70);
+        
         /* Faz a separação com base o melhor Valor! */
         for (int h = 0; h < Height; h++) {
             for (int w = 0; w < Width; w++) {
                 if(matriz[h][w] > M){
-                    matriz[h][w] = (int) M;
-                    //matriz[h][w] = 1;
+                    matriz[h][w] = 1;
                 } else matriz[h][w] = 0;
             }
         }
+        loading.setValue(100);
     }
     
     /**
@@ -477,7 +482,7 @@ public class Imagem_model {
      * Variancia(T) é variança.
      * @param T 
      */
-    private double Variancia(int T) {
+    private double Variancia(int T, JProgressBar loading) {
         
         int L = greyScale;  //Nivel de Cinza
         int[] N = N();
@@ -495,11 +500,12 @@ public class Imagem_model {
             P1 += p[i];
             //M1 += i * p[i];
         }   
+        loading.setValue(10);
         
         for (int i = 0; i <= T; i++) {            
             M1 += i * p[i];
         }   
-        
+        loading.setValue(20);
         M1 = M1/P1;
         
         
@@ -509,13 +515,14 @@ public class Imagem_model {
         for (int i = T+1; i <= L-1; i++) {
             P2 += p[i];
         }
+        loading.setValue(30);
         
         for (int i = T+1; i <= L-1; i++) {
             M2 += i * p[i];
         }
         
         M2 = M2/P2;
-        
+        loading.setValue(40);
         
         
         
@@ -523,9 +530,9 @@ public class Imagem_model {
         for (int i = 0; i <= L-1; i++) {
             MG += i * p[i];
         }
+        loading.setValue(50);
         
-        
-        
+        // E se o menor pixel for 24?
         return (P1 * Math.pow((M1 - MG), 2)) + (P2 * Math.pow((M2 - MG), 2));
     }
 }
