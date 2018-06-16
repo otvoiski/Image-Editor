@@ -5,18 +5,16 @@
  */
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import javax.swing.JProgressBar;
 
 /**
  *
- * @author Administrador
+ * @author Otavio
  */
 public class Imagem_model {    
     public boolean DEBUG;
@@ -445,7 +443,7 @@ public class Imagem_model {
      */   
     public void Limiarizacao(int T){
         double[] P = new double[greyScale];
-        double M = Double.MIN_VALUE; //Melhor Valor
+        int M = Integer.MIN_VALUE; //Melhor Valor
                 
         for (int i = T; i <= greyScale-1; i++) {
             P[i] = Variancia(i); 
@@ -453,7 +451,7 @@ public class Imagem_model {
         
         for (int i = T; i <= greyScale-1; i++) {
             if(P[i] > M){
-                M = (double) P[i];
+                M = (int) P[i];
             }
         }
         if(DEBUG) System.out.println("[LIMIARIZAÇÃO] M = " + M);
@@ -493,7 +491,6 @@ public class Imagem_model {
         //C1 [0,T]
         for (int i = 0; i <= T; i++) {
             P1 += (double) p[i];
-            //M1 += i * p[i];
         }   
         
         for (int i = 0; i <= T; i++) {            
@@ -521,6 +518,13 @@ public class Imagem_model {
         for (int i = 0; i <= L-1; i++) {
             MG += i * (double) p[i];
         }
+        
+        System.out.println("P1: " + P1);
+        System.out.println("P2: " + P2);
+        System.out.println("M1: " + M1);
+        System.out.println("M2: " + M2);
+        System.out.println("MG: " + MG);
+        System.out.println("o(T): " + (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2)));
         
         // E se o menor pixel for 24?
         return (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2));

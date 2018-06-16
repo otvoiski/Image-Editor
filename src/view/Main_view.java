@@ -18,7 +18,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DirectDrawDemo;
 import model.Histograma;
 import model.Imagem_model;
-import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -767,7 +766,7 @@ public class Main_view extends javax.swing.JFrame {
 
         jLabel18.setText("Selecione um Filtro");
 
-        jfiltro_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jfiltro_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Média", "K Vizinhos mais próximos", "Mediana", "Pseudomediana", "Moda", "Min", "Max", "Laplaciano", "High Boost" }));
 
         jButton9.setText("Aplicar");
 
@@ -799,7 +798,7 @@ public class Main_view extends javax.swing.JFrame {
                     .addComponent(jButton9))
                 .addGap(18, 18, 18)
                 .addComponent(jfiltro_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         getContentPane().add(Filtro);
@@ -1081,6 +1080,11 @@ public class Main_view extends javax.swing.JFrame {
         jmenu_melhorias.add(jMenuItem1);
 
         jMenuItem3.setText("Filtros");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jmenu_melhorias.add(jMenuItem3);
 
         jMenuItem4.setText("* Realce");
@@ -1369,6 +1373,11 @@ public class Main_view extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        Filtro.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
