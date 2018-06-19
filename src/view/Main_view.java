@@ -253,7 +253,6 @@ public class Main_view extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         joperadores_selecao = new javax.swing.JComboBox<>();
         jButton10 = new javax.swing.JButton();
-        joperadores_loading = new javax.swing.JProgressBar();
         Realce = new javax.swing.JInternalFrame();
         jLabel20 = new javax.swing.JLabel();
         jrealce_selecao = new javax.swing.JComboBox<>();
@@ -815,6 +814,11 @@ public class Main_view extends javax.swing.JFrame {
         joperadores_selecao.setToolTipText("");
 
         jButton10.setText("Aplicar");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout OperadoresLayout = new javax.swing.GroupLayout(Operadores.getContentPane());
         Operadores.getContentPane().setLayout(OperadoresLayout);
@@ -824,13 +828,12 @@ public class Main_view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(OperadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(OperadoresLayout.createSequentialGroup()
-                        .addComponent(joperadores_selecao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(joperadores_selecao, 0, 223, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10))
                     .addGroup(OperadoresLayout.createSequentialGroup()
                         .addComponent(jLabel19)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(joperadores_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         OperadoresLayout.setVerticalGroup(
@@ -842,8 +845,6 @@ public class Main_view extends javax.swing.JFrame {
                 .addGroup(OperadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(joperadores_selecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton10))
-                .addGap(18, 18, 18)
-                .addComponent(joperadores_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1091,7 +1092,12 @@ public class Main_view extends javax.swing.JFrame {
         jMenuItem4.setText("* Realce");
         jmenu_melhorias.add(jMenuItem4);
 
-        jMenuItem5.setText("* Operadores");
+        jMenuItem5.setText("Operadores");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jmenu_melhorias.add(jMenuItem5);
 
         jMenuItem6.setText("* Limiarização");
@@ -1387,9 +1393,28 @@ public class Main_view extends javax.swing.JFrame {
             case "Média":
                 img.FiltroMedia();               
                 break;
+            case "Mediana":
+                img.FiltroMediana();
+                break;
         }
         atualizarImagemView();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        Operadores.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        
+        switch(joperadores_selecao.getItemAt(joperadores_selecao.getSelectedIndex())){
+            case "Sobel":
+                img.OperadorSobel();               
+                break;
+        }
+        atualizarImagemView();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1519,7 +1544,6 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenu_salvar;
     private javax.swing.JMenuItem jmenu_salvarcomo;
     private javax.swing.JMenuItem jmenu_sobre;
-    private javax.swing.JProgressBar joperadores_loading;
     private javax.swing.JComboBox<String> joperadores_selecao;
     private javax.swing.JProgressBar jrealce_loading;
     private javax.swing.JComboBox<String> jrealce_selecao;
