@@ -1367,7 +1367,7 @@ public class Main_view extends javax.swing.JFrame {
                 atualizarImagemView();
                 
                 jlimia_loading.setValue(100);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 model.Error.show("Falha! favor inserir somente números.");
                 
                 jlimia_loading.setValue(30);
