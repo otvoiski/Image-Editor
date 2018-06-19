@@ -424,8 +424,37 @@ public class Imagem_model {
         return p(N);
     }
     
-    public void FiltroExpansao() {
-    
+    /**
+     * Aplica Filtro da Media
+     */
+    public void FiltroMedia(){
+        int N = 0,
+            NE = 0,
+            E = 0,
+            SE = 0,
+            S = 0,
+            SO = 0,
+            O = 0,
+            NO = 0,
+            pixel = 0;
+        for (int i = 0; i < Height; i++) {
+            for (int j = 0; j < Width; j++) {                
+                if(i-1 > 0 && j-1 > 0) NO = matriz[i-1][j-1];  else NO = 0;
+                if(i-1 > 0 && j >= 0) N = matriz[i-1][j];  else N = 0;
+                if(i-1 > 0 && j+1 < Width) NE = matriz[i-1][j+1];  else NE = 0;
+                
+                if(i >= 0 && j-1 > 0) O = matriz[i][j-1];  else O = 0;
+                pixel = matriz[i][j];                
+                if(i >= 0 && j+1 < Width) E = matriz[i][j+1];  else E = 0;
+                
+                if(i+1 < Height && j-1 > 0) SO = matriz[i+1][j-1];  else SO = 0;
+                if(i+1 > Height && j >= 0) S = matriz[i+1][j];  else S = 0;
+                if(i+1 > Height && j+1 < Width) SE = matriz[i+1][j+1];  else SE = 0;
+                    
+                /* 3x3 */
+                matriz[i][j] = (NO + N + NE + O + pixel + E + SO + S + SE) / 9;
+            }
+        }
     }
     
     /**
@@ -528,5 +557,5 @@ public class Imagem_model {
         
         // E se o menor pixel for 24?
         return (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2));
-    }
+    }    
 }
