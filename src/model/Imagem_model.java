@@ -422,39 +422,42 @@ public class Imagem_model {
     }
 
     /* FILTROS */
-    
+    /**
+     * Aumenta a matriz.
+     */
     private void aumentaMatriz() {
-        int newMatriz[][] = new int[Height+1][Width+1];
+        int newMatriz[][] = new int[Height + 1][Width + 1];
         for (int i = 1; i < Height; i++) {
             for (int j = 1; j < Width; j++) {
-                newMatriz[i][j] = matriz[i-1][j-1];
+                newMatriz[i][j] = matriz[i - 1][j - 1];
             }
         }
         matriz = newMatriz;
     }
+
     /**
      * Aplica Filtro da Media
      */
     public void FiltroMedia() {
         int N, NE, E, SE, S, SO, O, NO, pixel;
-        
+
         aumentaMatriz();
-        
+
         for (int i = 1; i < Height; i++) {
             for (int j = 1; j < Width; j++) {
-                              
+
                 NO = matriz[i - 1][j - 1];
                 N = matriz[i - 1][j];
                 NE = matriz[i - 1][j + 1];
 
-                O = matriz[i][j-1];
+                O = matriz[i][j - 1];
                 pixel = matriz[i][j];
                 E = matriz[i][j + 1];
 
                 SO = matriz[i + 1][j - 1];
                 S = matriz[i + 1][j];
                 SE = matriz[i + 1][j + 1];
-                
+
                 /* 3x3 */
                 matriz[i][j] = (NO + N + NE + O + pixel + E + SO + S + SE) / 9;
             }
@@ -464,13 +467,12 @@ public class Imagem_model {
     /**
      * Aplica Filtro da Mediana
      */
-        
     public void FiltroMediana() {
         ArrayList<Integer> M = new ArrayList<>();
         int N, NE, E, SE, S, SO, O, NO, pixel;
-        
+
         aumentaMatriz();
-        
+
         for (int i = 1; i < Height; i++) {
             for (int j = 1; j < Width; j++) {
 
@@ -479,7 +481,7 @@ public class Imagem_model {
                 N = matriz[i - 1][j];
                 NE = matriz[i - 1][j + 1];
 
-                O = matriz[i][j-1];
+                O = matriz[i][j - 1];
                 pixel = matriz[i][j];
                 E = matriz[i][j + 1];
 
@@ -599,4 +601,42 @@ public class Imagem_model {
         // E se o menor pixel for 24?
         return (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2));
     }
+
+    /* OPERADORES */
+    
+    /**
+     * Multiplica Matriz por Pixel
+     * @return 
+     */
+    private int[][] multMxP(int a[][], int b[][]){
+        int c[][] = new int[a.length][b.length];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < b.length; j++) {
+               c[i][j] = a[i][j] * b[j][i];
+            }
+         }
+        
+        return c;
+    }
+    public void OperadorSobel2() {
+        double dx, dy, Magnitude, Direcao;
+        
+        aumentaMatriz();       
+        
+        for (int i = 1; i < Height; i++) {
+            for (int j = 1; j < Width; j++) {
+                dx = ((matriz[i - 1][j - 1]-1) + (matriz[i][j - 1]-0) + (matriz[i + 1][j - 1]+1)) 
+                   - ((matriz[i - 1][j]-2) + (matriz[i][j]+0) + (matriz[i+1][j]+2))
+                   - ((matriz[i - 1][j + 1]-1) + (matriz[i][j + 1]+0) + (matriz[i + 1][j + 1]+1));
+                
+                
+                
+                dy = ((matriz[i - 1][j - 1]+1) + (matriz[i - 1][j]+2) + (matriz[i - 1][j + 1]+1)) - ((matriz[i + 1][j - 1]-1) + (matriz[i + 1][j]-2) + (matriz[i + 1][j + 1]-1));
+                Magnitude = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+                Direcao = Math.tan(dy/dx);
+                matriz[i][j] = (int) Magnitude;                
+            }            
+        }
+    }    
+    
 }
