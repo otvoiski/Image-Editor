@@ -249,7 +249,6 @@ public class Main_view extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jfiltro_selecao = new javax.swing.JComboBox<>();
         jButton9 = new javax.swing.JButton();
-        jfiltro_loading = new javax.swing.JProgressBar();
         Operadores = new javax.swing.JInternalFrame();
         jLabel19 = new javax.swing.JLabel();
         joperadores_selecao = new javax.swing.JComboBox<>();
@@ -769,6 +768,11 @@ public class Main_view extends javax.swing.JFrame {
         jfiltro_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Média", "K Vizinhos mais próximos", "Mediana", "Pseudomediana", "Moda", "Min", "Max", "Laplaciano", "High Boost" }));
 
         jButton9.setText("Aplicar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout FiltroLayout = new javax.swing.GroupLayout(Filtro.getContentPane());
         Filtro.getContentPane().setLayout(FiltroLayout);
@@ -778,13 +782,12 @@ public class Main_view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(FiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(FiltroLayout.createSequentialGroup()
-                        .addComponent(jfiltro_selecao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jfiltro_selecao, 0, 223, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9))
                     .addGroup(FiltroLayout.createSequentialGroup()
                         .addComponent(jLabel18)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jfiltro_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         FiltroLayout.setVerticalGroup(
@@ -796,9 +799,7 @@ public class Main_view extends javax.swing.JFrame {
                 .addGroup(FiltroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jfiltro_selecao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9))
-                .addGap(18, 18, 18)
-                .addComponent(jfiltro_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         getContentPane().add(Filtro);
@@ -1376,8 +1377,19 @@ public class Main_view extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        Filtro.setVisible(true);
+        Filtro.setVisible(true);        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // Média, K Vizinhos mais próximos, Mediana, Pseudomediana, Moda, Min, Max, Laplaciano, High Boost
+        
+        switch(jfiltro_selecao.getItemAt(jfiltro_selecao.getSelectedIndex())){
+            case "Média":
+                img.FiltroMedia();               
+                break;
+        }
+        atualizarImagemView();
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1478,7 +1490,6 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JProgressBar jfiltro_loading;
     private javax.swing.JComboBox<String> jfiltro_selecao;
     private javax.swing.JLabel jlabel_addremove_nome;
     private javax.swing.JLabel jlabel_descricao_altura;
