@@ -33,7 +33,7 @@ public class Imagem_modelTest {
         } catch (IOException ex) {
             fail(ex.getMessage());
         }
-        instance.Limiarizacao(T);
+        instance.Limiarizacao();
     }
     
 }

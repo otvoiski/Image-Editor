@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.DirectDrawDemo;
 import model.Histograma;
@@ -261,10 +262,6 @@ public class Main_view extends javax.swing.JFrame {
         Limiarizacao = new javax.swing.JInternalFrame();
         jLabel21 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
-        jlimia_loading = new javax.swing.JProgressBar();
-        jlimia_T = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmenu_abrir = new javax.swing.JMenuItem();
@@ -764,7 +761,7 @@ public class Main_view extends javax.swing.JFrame {
 
         jLabel18.setText("Selecione um Filtro");
 
-        jfiltro_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Média", "K Vizinhos mais próximos", "Mediana", "Pseudomediana", "Moda", "Min", "Max", "Laplaciano", "High Boost" }));
+        jfiltro_selecao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Média", "Mediana", "Moda", "K Vizinhos mais próximos", "Pseudomediana", "Min", "Max", "Laplaciano", "High Boost" }));
 
         jButton9.setText("Aplicar");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -861,6 +858,11 @@ public class Main_view extends javax.swing.JFrame {
         jrealce_selecao.setToolTipText("");
 
         jButton11.setText("Aplicar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout RealceLayout = new javax.swing.GroupLayout(Realce.getContentPane());
         Realce.getContentPane().setLayout(RealceLayout);
@@ -901,22 +903,14 @@ public class Main_view extends javax.swing.JFrame {
         Limiarizacao.setToolTipText("");
         Limiarizacao.setVisible(false);
 
-        jLabel21.setText("Informe o valor de T");
+        jLabel21.setText("Selecione a limiarização");
 
-        jButton12.setText("Aplicar");
+        jButton12.setText("Otsu");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
             }
         });
-
-        jlimia_T.setText("1");
-
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel22.setText("T (");
-
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel23.setText(")");
 
         javax.swing.GroupLayout LimiarizacaoLayout = new javax.swing.GroupLayout(Limiarizacao.getContentPane());
         Limiarizacao.getContentPane().setLayout(LimiarizacaoLayout);
@@ -926,18 +920,10 @@ public class Main_view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LimiarizacaoLayout.createSequentialGroup()
-                        .addComponent(jLabel22)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlimia_T)
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton12))
-                    .addGroup(LimiarizacaoLayout.createSequentialGroup()
-                        .addComponent(jLabel21)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jlimia_loading, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel21))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         LimiarizacaoLayout.setVerticalGroup(
             LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -945,14 +931,8 @@ public class Main_view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LimiarizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton12)
-                    .addComponent(jlimia_T, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel23))
-                .addGap(18, 18, 18)
-                .addComponent(jlimia_loading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         getContentPane().add(Limiarizacao);
@@ -1089,7 +1069,12 @@ public class Main_view extends javax.swing.JFrame {
         });
         jmenu_melhorias.add(jMenuItem3);
 
-        jMenuItem4.setText("* Realce");
+        jMenuItem4.setText("Realce");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jmenu_melhorias.add(jMenuItem4);
 
         jMenuItem5.setText("Operadores");
@@ -1100,7 +1085,7 @@ public class Main_view extends javax.swing.JFrame {
         });
         jmenu_melhorias.add(jMenuItem5);
 
-        jMenuItem6.setText("* Limiarização");
+        jMenuItem6.setText("Limiarização");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -1147,48 +1132,6 @@ public class Main_view extends javax.swing.JFrame {
     
     
     
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jmenu_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_abrirActionPerformed
-        // TODO add your handling code here:        
-                
-        try {
-            //auto select
-                //img = new Imagem_model(jtext_opcao_local.getText() + jtext_option_nome.getText(),jtext_option_nome.getText());     
-                arquivo_original = OpenFile();
-                if(arquivo_original != null){
-                    img = new Imagem_model(arquivo_original.getPath(), arquivo_original.getName());
-
-                    atualizarImagemView();                    
-
-                    RelacionamentoComImagem(true);        
-                }                
-               
-        } catch (IOException ex) {
-            Logger.getLogger(Main_view.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            
-        
-        
-    }//GEN-LAST:event_jmenu_abrirActionPerformed
-
-    private void jmenu_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_salvarActionPerformed
-        // TODO add your handling code here:
-        if(img != null)
-            img.salvarImagem(img.getLocal());        
-    }//GEN-LAST:event_jmenu_salvarActionPerformed
-
-    private void jmenu_salvarcomoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_salvarcomoActionPerformed
-        // TODO add your handling code here:
-        if(img != null) {
-            SaveFile();
-            //SalvarComo.setVisible(rootPaneCheckingEnabled);
-        }
-    }//GEN-LAST:event_jmenu_salvarcomoActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:        
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1324,11 +1267,6 @@ public class Main_view extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jmenu_propriedadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_propriedadesActionPerformed
-        // TODO add your handling code here:
-        Propriedades.setVisible(rootPaneCheckingEnabled);
-    }//GEN-LAST:event_jmenu_propriedadesActionPerformed
-
     private void jmenu_amostragemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_amostragemActionPerformed
         
     }//GEN-LAST:event_jmenu_amostragemActionPerformed
@@ -1365,20 +1303,16 @@ public class Main_view extends javax.swing.JFrame {
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
         
-        jlimia_loading.setValue(0);
-        if(!jlimia_T.getText().isEmpty()){
+        
             try {                
                 
-                img.Limiarizacao(Integer.parseInt(jlimia_T.getText()));
+                img.Limiarizacao();
                 atualizarImagemView();
                 
-                jlimia_loading.setValue(100);
             } catch (NumberFormatException e) {
                 model.Error.show("Falha! favor inserir somente números.");
                 
-                jlimia_loading.setValue(30);
-            }
-        }
+            }        
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -1395,6 +1329,9 @@ public class Main_view extends javax.swing.JFrame {
                 break;
             case "Mediana":
                 img.FiltroMediana();
+                break;
+            case "Moda":
+                img.FiltroModa();
                 break;
         }
         atualizarImagemView();
@@ -1415,6 +1352,62 @@ public class Main_view extends javax.swing.JFrame {
         }
         atualizarImagemView();
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        img.RealceQuadrado();
+        atualizarImagemView();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        Realce.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jmenu_propriedadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_propriedadesActionPerformed
+        // TODO add your handling code here:
+        Propriedades.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_jmenu_propriedadesActionPerformed
+
+    private void jmenu_salvarcomoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_salvarcomoActionPerformed
+        // TODO add your handling code here:
+        if(img != null) {
+            SaveFile();
+            //SalvarComo.setVisible(rootPaneCheckingEnabled);
+        }
+    }//GEN-LAST:event_jmenu_salvarcomoActionPerformed
+
+    private void jmenu_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_salvarActionPerformed
+        // TODO add your handling code here:
+        if(img != null)
+        img.salvarImagem(img.getLocal());
+    }//GEN-LAST:event_jmenu_salvarActionPerformed
+
+    private void jmenu_abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_abrirActionPerformed
+        // TODO add your handling code here:
+
+        try {
+            //auto select
+            //img = new Imagem_model(jtext_opcao_local.getText() + jtext_option_nome.getText(),jtext_option_nome.getText());
+            arquivo_original = OpenFile();
+            if(arquivo_original != null){
+                img = new Imagem_model(arquivo_original.getPath(), arquivo_original.getName());
+
+                atualizarImagemView();
+
+                RelacionamentoComImagem(true);
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Main_view.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jmenu_abrirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1494,8 +1487,6 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1526,8 +1517,6 @@ public class Main_view extends javax.swing.JFrame {
     private javax.swing.JLabel jlabel_descricao_nome;
     private javax.swing.JLabel jlabel_descricao_quant;
     private javax.swing.JLabel jlabel_imagemeditada_imagem;
-    private javax.swing.JTextField jlimia_T;
-    private javax.swing.JProgressBar jlimia_loading;
     private javax.swing.JMenuItem jmenu_abrir;
     private javax.swing.JMenuItem jmenu_addRemove;
     private javax.swing.JMenuItem jmenu_amostragem;

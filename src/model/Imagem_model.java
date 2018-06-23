@@ -5,7 +5,10 @@
  */
 package model;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -14,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -150,10 +155,17 @@ public class Imagem_model {
      * @return double[] p
      */
     private double[] p(int[] N) {
+        int sum = 0;
         double[] p = new double[greyScale];
-        for (int i = 0; i <= greyScale - 1; i++) {
-            p[i] = ((double) N[i]) / quantPixels;
+        
+        for (int i = 0; i < greyScale; i++) {
+            sum += N[i];
         }
+        
+        for (int i = 0; i <= greyScale - 1; i++) {
+            p[i] = ((double) N[i]) / sum;
+        }
+        
         return p;
     }
 
@@ -192,7 +204,7 @@ public class Imagem_model {
 
         return false;
     }
-
+    
     public boolean salvarImagem(String Path) {
         File arq = new File(Path);
         try {
@@ -477,34 +489,120 @@ public class Imagem_model {
             for (int j = 1; j < Width; j++) {
 
                 /* 3x3 */
-                NO = matriz[i - 1][j - 1];
-                N = matriz[i - 1][j];
-                NE = matriz[i - 1][j + 1];
-
-                O = matriz[i][j - 1];
-                pixel = matriz[i][j];
-                E = matriz[i][j + 1];
-
-                SO = matriz[i + 1][j - 1];
-                S = matriz[i + 1][j];
-                SE = matriz[i + 1][j + 1];
-
-                M.add(NO);
-                M.add(N);
-                M.add(NE);
-                M.add(O);
-                M.add(pixel);
-                M.add(E);
-                M.add(SO);
-                M.add(S);
-                M.add(SE);
+                M.add(matriz[i - 1][j - 1]);
+                M.add(matriz[i - 1][j]);
+                M.add(matriz[i - 1][j + 1]);
+                M.add(matriz[i][j - 1]);
+                M.add(matriz[i][j]);
+                M.add(matriz[i][j + 1]);
+                M.add(matriz[i + 1][j - 1]);
+                M.add(matriz[i + 1][j]);
+                M.add(matriz[i + 1][j + 1]);
 
                 Collections.sort(M);
 
-                matriz[i][j] = M.get(((M.size() - 1) / 2) + 1);
+                matriz[i][j] = M.get(5);
 
                 M.clear();
             }
+        }
+    }
+
+    public void FiltroModa() {
+        ArrayList<Integer> M = new ArrayList<>();
+        ArrayList<Integer> C = new ArrayList<>();        
+        
+        int moda;
+
+        aumentaMatriz();
+
+        for (int i = 1; i < Height; i++) {
+            for (int j = 1; j < Width; j++) {
+
+                /* 3x3 */
+                M.add(matriz[i - 1][j - 1]);
+                M.add(matriz[i - 1][j]);
+                M.add(matriz[i - 1][j + 1]);
+                M.add(matriz[i][j - 1]);
+                M.add(matriz[i][j]);
+                M.add(matriz[i][j + 1]);
+                M.add(matriz[i + 1][j - 1]);
+                M.add(matriz[i + 1][j]);
+                M.add(matriz[i + 1][j + 1]);
+
+                //Collections.sort(M);
+                
+                for (int k = 0; k < M.size(); k++) {                    
+                    C.add(k, 0);    //<- adiciona o valor 0 para começa a contar o valor que mais se repete.
+                    for (int l = 0; l < M.size(); l++) {
+                        if(M.get(k).intValue() == M.get(l).intValue()){
+                            C.add(k,C.get(k)+1);
+                        }
+                    }
+                }
+                
+                moda = C.get(0);
+                
+                for (int k = 0; k < C.size(); k++) {
+                    if(C.get(k) > moda){
+                        moda = k;
+                    }
+                }
+                
+                matriz[i][j] = M.get(moda);
+
+                M.clear();
+                C.clear();
+            }
+        }
+    }
+    
+    /* Limiarizacao */
+    /**
+     * <b>Limiarização</b> <i>é um processo de segmentação de imagens que se
+     * baseia na diferença dos níveis de cinza que compõe diferentes objetos de
+     * uma imagem.</i>
+     * <br>
+     * Esta função utiliza a <b> Método de Otsu </b>
+     */
+    public void Limiarizacao() {
+                
+        boolean end = false;
+        int t = 0;
+        int t_max = -1;
+        int var_ic_max = -1;        
+        double v;
+
+        double p = Variancia(t);        
+
+        while (!end) {
+            
+            if(t < getGreyScale()-1){
+                /* Faz a separação com base o melhor Valor! */
+                for (int h = 0; h < Height; h++) {
+                    for (int w = 0; w < Width; w++) {
+                        if (matriz[h][w] >= t_max) {
+                            matriz[h][w] = 1;
+                        } else {
+                            matriz[h][w] = 0;
+                        }
+                    }
+                }
+                
+                setGreyScale(2);
+                end = true;
+            } else {
+                
+                v = Variancia(t);
+                
+                if(v > var_ic_max) {
+                    var_ic_max = (int) v;
+                    t_max = t;
+                }
+                
+                t++;
+                
+            }            
         }
     }
 
@@ -518,7 +616,7 @@ public class Imagem_model {
      *
      * @param T Limiar, ponto Chave
      */
-    public void Limiarizacao(int T) {
+    public void Limiarizacao2(int T) {
         double[] P = new double[greyScale];
         int M = Integer.MIN_VALUE; //Melhor Valor
 
@@ -598,45 +696,57 @@ public class Imagem_model {
         System.out.println("MG: " + MG);
         System.out.println("o(T): " + (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2)));
 
-        // E se o menor pixel for 24?
         return (double) (P1 * Math.pow((M1 - MG), 2)) + (double) (P2 * Math.pow((M2 - MG), 2));
     }
 
     /* OPERADORES */
-    
     /**
      * Multiplica Matriz por Pixel
-     * @return 
+     *
+     * @return
      */
-    private int[][] multMxP(int a[][], int b[][]){
+    private int[][] multMxP(int a[][], int b[][]) {
         int c[][] = new int[a.length][b.length];
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < b.length; j++) {
-               c[i][j] = a[i][j] * b[j][i];
+                c[i][j] = a[i][j] * b[j][i];
             }
-         }
-        
+        }
+
         return c;
     }
-    public void OperadorSobel2() {
-        double dx, dy, Magnitude, Direcao;
-        
-        aumentaMatriz();       
-        
+
+    public void OperadorSobel() {
+        double dx, dy, Magnitude;
+
+        aumentaMatriz();
+
         for (int i = 1; i < Height; i++) {
             for (int j = 1; j < Width; j++) {
-                dx = ((matriz[i - 1][j - 1]-1) + (matriz[i][j - 1]-0) + (matriz[i + 1][j - 1]+1)) 
-                   - ((matriz[i - 1][j]-2) + (matriz[i][j]+0) + (matriz[i+1][j]+2))
-                   - ((matriz[i - 1][j + 1]-1) + (matriz[i][j + 1]+0) + (matriz[i + 1][j + 1]+1));
-                
-                
-                
-                dy = ((matriz[i - 1][j - 1]+1) + (matriz[i - 1][j]+2) + (matriz[i - 1][j + 1]+1)) - ((matriz[i + 1][j - 1]-1) + (matriz[i + 1][j]-2) + (matriz[i + 1][j + 1]-1));
-                Magnitude = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-                Direcao = Math.tan(dy/dx);
-                matriz[i][j] = (int) Magnitude;                
-            }            
+                dx = (double) 
+                          (((+1) * matriz[i - 1][j - 1]) + ((-0) * matriz[i][j - 1]) + ((-1) * matriz[i + 1][j - 1]))
+                        - (((+2) * matriz[i - 1][j])     + ((+0) * matriz[i][j])     + ((-2) * matriz[i + 1][j]))
+                        - (((+1) * matriz[i - 1][j + 1]) + ((+0) * matriz[i][j + 1]) + ((-1) * matriz[i + 1][j + 1]));
+
+                dy = (double) 
+                          (((+1) * matriz[i - 1][j - 1]) + ((+2) * matriz[i][j - 1]) + ((+1) * matriz[i + 1][j - 1]))
+                        - (((+0) * matriz[i - 1][j])     + ((+0) * matriz[i][j])     + ((+0) * matriz[i + 1][j]))
+                        - (((-1) * matriz[i - 1][j + 1]) + ((-2) * matriz[i][j + 1]) + ((-1) * matriz[i + 1][j + 1]));
+
+                Magnitude = (double) Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+                matriz[i][j] = (int) Magnitude;
+            }
         }
-    }    
+    }
     
+    public void RealceQuadrado(){        
+        float fator = greyScale/(pixelMax - pixelMin);        
+       
+        for (int i = 0; i < Height; i++) {
+            for (int j = 0; j < Width; j++) {
+                matriz[i][j] = (int) (fator * Math.sqrt(matriz[i][j]));
+            }
+        }
+       
+    }
 }
